@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.ControllerRecordW">
+    <HBox fx:id="header" styleClass="custom-hbox"></HBox>
+    <VBox fx:id="content" alignment="CENTER">
+        <HBox fx:id="navMenu" style="-fx-pref-height:24;">
+            <Button fx:id="registros" text="Registros" styleClass="button-header"/>
+            <Button fx:id="registrarVenta" text="Registrar Venta" styleClass="button-header"/>
+            <Button fx:id="reportes" text="Reportes" styleClass="button-header"/>
+        </HBox>
+        <HBox fx:id="searchBox">
+            <ComboBox fx:id="comboBox" prefWidth="150">
+                <!-- Opciones del ComboBox -->
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Id Venta"/>
+                        <String fx:value="Cedula cliente"/>
+                        <String fx:value="Nombre cliente"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+            <TextField/>
+        </HBox>
+        <HBox styleClass="view-border">
+            <VBox fx:id="tableBox" styleClass="view-border">
+                <Label text="some content"/>
+            </VBox>
+            <VBox  fx:id="filterBox" styleClass="view-border" style="-fx-pref-width: 300">
+                <Label text="Filtrar por fecha"/>
+                <Label text="Desde:"/><DatePicker/>
+                <Label text="Hasta:"/><DatePicker/>
+                <Label text="Filtrar por valor de la compra"/>
+                <VBox styleClass="view-border">
+                    <Label text="init - end"/>
+                    <Slider min="0" max="100" value="50"/>
+                </VBox>
+                <Label text="Filtrar por valor de la compra"/>
+            </VBox>
+        </HBox>
+    </VBox>
+</VBox>
+<!-- styleClass="view-border" -->
