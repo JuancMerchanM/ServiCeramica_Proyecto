@@ -34,20 +34,24 @@
             </ComboBox>
             <TextField/>
         </HBox>
-        <HBox styleClass="view-border">
-            <VBox fx:id="tableBox" styleClass="view-border">
+        <HBox fx:id="records">
+            <VBox fx:id="tableBox">
                 <Label text="some content"/>
             </VBox>
-            <VBox  fx:id="filterBox" styleClass="view-border" style="-fx-pref-width: 300">
+            <VBox  fx:id="recordInfoTable" style="-fx-pref-width: 300">
                 <Label text="Filtrar por fecha"/>
                 <Label text="Desde:"/><DatePicker/>
                 <Label text="Hasta:"/><DatePicker/>
                 <Label text="Filtrar por valor de la compra"/>
-                <VBox styleClass="view-border">
-                    <Label text="init - end"/>
-                    <Slider min="0" max="100" value="50"/>
+                <Label text="Desde:"/><TextField/>
+                <Label text="Hasta:"/><TextField/>
+                <VBox fx:id="selectRecordInfo">
+                    <Label fx:id="idSold"/>
+                    <Label fx:id="dateSold"/>
+                    <Label fx:id="nameCust"/>
+                    <Label fx:id="totalSold"/>
+                    <Label fx:id="products"/>
                 </VBox>
-                <Label text="Filtrar por valor de la compra"/>
             </VBox>
         </HBox>
     </VBox>

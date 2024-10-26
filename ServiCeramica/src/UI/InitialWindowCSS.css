@@ -34,7 +34,7 @@
     -fx-alignment: "CENTER";
 }
 
-#filterBox{
+#informationRecord{
     -fx-spacing: 8;
     -fx-padding: 10 5 5 5;
 }
@@ -43,9 +43,4 @@
     -fx-border-color: black; /* Color del borde */
     -fx-border-width: 2px;   /* Grosor del borde */
     -fx-border-style: solid;
-}
-/* Tengo 3 botones en un HBox de javafx, como puedo lograr que los 3 botones ocupen el tamaño total del hbox? */
-Slider{
-    -fx-show-tick-labels: "true";
-    -fx-show-tick-marks: "true";
 }

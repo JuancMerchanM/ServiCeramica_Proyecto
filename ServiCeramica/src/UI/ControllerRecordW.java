@@ -18,14 +18,22 @@ public class ControllerRecordW {
     @FXML
     VBox filterBox;
     @FXML
+    VBox content;
+    @FXML
+    HBox records;
+    @FXML
     public void initialize(){
         HBox.setHgrow(registros, Priority.ALWAYS);
         HBox.setHgrow(registrarVenta, Priority.ALWAYS);
         HBox.setHgrow(reportes, Priority.ALWAYS);
         HBox.setHgrow(tableBox, Priority.ALWAYS);
+        VBox.setVgrow(content, Priority.ALWAYS);
+        VBox.setVgrow(records, Priority.ALWAYS);
         tableBox.setMaxWidth(Double.MAX_VALUE);
         registros.setMaxWidth(Double.MAX_VALUE);
         registrarVenta.setMaxWidth(Double.MAX_VALUE);
         reportes.setMaxWidth(Double.MAX_VALUE);
+        content.setMaxHeight(Double.MAX_VALUE);
+        records.setMaxHeight(Double.MAX_VALUE);
     }
 }

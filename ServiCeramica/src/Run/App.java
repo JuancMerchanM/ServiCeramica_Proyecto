@@ -8,7 +8,7 @@ public class App extends Application {
     @Override
     public void start(Stage arg0) throws Exception {
         ViewManager.showWindow(
-                "../UI/InitialWindow.fxml",
+                "../UI/RecordWindow.fxml",
                 "Inicio",
                 "../UI/InitialWindowCSS.css");
     }
