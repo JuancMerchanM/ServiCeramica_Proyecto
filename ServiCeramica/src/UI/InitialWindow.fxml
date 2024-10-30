@@ -26,6 +26,6 @@
         <HBox styleClass="custom-vbox">
             <CheckBox fx:id="checkRemind" text="Recuerdame" selected="false"/>
         </HBox>
-        <Button fx:id="login" text="Iniciar sesion" style="-fx-text-fill: rgb(114, 0, 0);" onAction="#login"/>
+        <Button fx:id="loginBtton" text="Iniciar sesion" style="-fx-text-fill: rgb(114, 0, 0);" onAction="#login"/>
     </VBox>
 </VBox>

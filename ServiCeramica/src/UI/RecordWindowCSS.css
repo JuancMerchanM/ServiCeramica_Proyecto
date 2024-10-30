@@ -1,0 +1,41 @@
+*{
+    -fx-font-family: "Arial Rounded MT Bold";
+    -fx-font-size: 12px;
+}
+
+.custom-vbox {
+    -fx-padding: 10; /* Espaciado interno opcional */
+    -fx-max-width:300;
+    -fx-spacing:7;
+}
+
+.custom-hbox{
+    -fx-background-color: rgb(114, 0, 0);
+    -fx-pref-width:300;
+    -fx-pref-height:100;
+   
+}
+
+#searchBox{
+    -fx-padding: 14;
+    -fx-spacing: 15;
+    -fx-alignment: "CENTER";
+}
+
+#informationRecord{
+    -fx-spacing: 8;
+    -fx-padding: 10 5 5 5;
+}
+
+.button-header{
+    -fx-text-fill: rgb(114, 0, 0);
+    -fx-pref-height:24;
+    -fx-background-color: white;
+    -fx-border-color: rgb(255, 255, 255),  black, black, black
+}
+
+.view-border{
+    -fx-border-color: black; /* Color del borde */
+    -fx-border-width: 2px;   /* Grosor del borde */
+    -fx-border-style: solid;
+}
