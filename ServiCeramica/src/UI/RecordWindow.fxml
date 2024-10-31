@@ -10,6 +10,8 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
 <?import java.lang.String?>
 
 
@@ -36,7 +38,16 @@
         </HBox>
         <HBox fx:id="records">
             <VBox fx:id="tableBox">
-                <Label text="some content"/>
+                <TableView fx:id="tableViewSales" layoutX="10.0" layoutY="10.0">
+                    <columns>
+                        <TableColumn fx:id="idSaleCol" text="Id venta"/>
+                        <TableColumn fx:id="custNameCol" text="Nombre del cliente"/>
+                        <TableColumn fx:id="custCardCol" text="Cedula del cliente"/>
+                        <TableColumn fx:id="custPhoneCol" text="Telefono del cliente"/>
+                        <TableColumn fx:id="saleAmountCol" text="Valor de la venta"/>
+                        <TableColumn fx:id="saleDateCol" text="Fecha de la venta"/>
+                    </columns>
+                </TableView>
             </VBox>
             <VBox  fx:id="recordInfoTable" style="-fx-pref-width: 300">
                 <Label text="Filtrar por fecha"/>

@@ -4,7 +4,6 @@ import Run.App;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class ControllerInitW {
     @FXML

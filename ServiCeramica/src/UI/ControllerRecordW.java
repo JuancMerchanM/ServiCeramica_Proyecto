@@ -1,7 +1,15 @@
 package UI;
 
+import java.time.LocalDate;
+
+import Model.CustomerSaleView;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -21,6 +29,22 @@ public class ControllerRecordW {
     VBox content;
     @FXML
     HBox records;
+
+    @FXML
+    TableView<CustomerSaleView> tableViewSales;
+    @FXML
+    private TableColumn<CustomerSaleView, String> idSaleCol;
+    @FXML
+    private TableColumn<CustomerSaleView, String> custNameCol;
+    @FXML
+    private TableColumn<CustomerSaleView, String> custCardCol;
+    @FXML
+    private TableColumn<CustomerSaleView, Double> custPhoneCol;
+    @FXML
+    private TableColumn<CustomerSaleView, String> saleAmountCol;
+    @FXML
+    private TableColumn<CustomerSaleView, String> saleDateCol;
+
     @FXML
     public void initialize(){
         HBox.setHgrow(registros, Priority.ALWAYS);
@@ -35,5 +59,18 @@ public class ControllerRecordW {
         reportes.setMaxWidth(Double.MAX_VALUE);
         content.setMaxHeight(Double.MAX_VALUE);
         records.setMaxHeight(Double.MAX_VALUE);
+
+        idSaleCol.setCellValueFactory(new PropertyValueFactory<>("saleId"));
+        custNameCol.setCellValueFactory(new PropertyValueFactory<>("custName"));
+        custCardCol.setCellValueFactory(new PropertyValueFactory<>("custCard"));
+        custPhoneCol.setCellValueFactory(new PropertyValueFactory<>("custPhone"));
+        saleAmountCol.setCellValueFactory(new PropertyValueFactory<>("saleAmount"));
+        saleDateCol.setCellValueFactory(new PropertyValueFactory<>("saleDate"));
+
+        ObservableList<CustomerSaleView> customerSales = FXCollections.observableArrayList(
+            new CustomerSaleView("123654","Juan", "123168", "2313568468" ,1236,LocalDate.now()),
+            new CustomerSaleView("123654","Carlos", "123168", "2313568468" ,1236,LocalDate.now())
+        );
+        tableViewSales.setItems(customerSales);
     }
 }
