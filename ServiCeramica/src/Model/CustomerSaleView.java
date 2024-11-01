@@ -1,8 +1,10 @@
 package Model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class CustomerSaleView {
+
+public class CustomerSaleView implements Serializable{
     private String saleId;
     private String custName;
     private String custCard;
@@ -18,6 +20,10 @@ public class CustomerSaleView {
         this.custPhone = custPhone;
         this.saleAmount = saleAmount;
         this.saleDate = saleDate;
+    }
+
+    public CustomerSaleView(){
+        
     }
 
     public String getSaleId() {

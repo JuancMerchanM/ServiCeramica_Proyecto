@@ -1,7 +1,8 @@
 package UI;
 
-import java.time.LocalDate;
+import java.util.List;
 
+import Logic.FileJsonPersistence;
 import Model.CustomerSaleView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,7 +47,7 @@ public class ControllerRecordW {
     private TableColumn<CustomerSaleView, String> saleDateCol;
 
     @FXML
-    public void initialize(){
+    public void initialize() {
         HBox.setHgrow(registros, Priority.ALWAYS);
         HBox.setHgrow(registrarVenta, Priority.ALWAYS);
         HBox.setHgrow(reportes, Priority.ALWAYS);
@@ -66,10 +67,11 @@ public class ControllerRecordW {
         custPhoneCol.setCellValueFactory(new PropertyValueFactory<>("custPhone"));
         saleAmountCol.setCellValueFactory(new PropertyValueFactory<>("saleAmount"));
         saleDateCol.setCellValueFactory(new PropertyValueFactory<>("saleDate"));
-
+        
+        FileJsonPersistence<CustomerSaleView> salesRecord = new FileJsonPersistence<CustomerSaleView>("resources/salesRecord.json");
+        List<CustomerSaleView> salesRecordList= salesRecord.getObjects(CustomerSaleView.class);
         ObservableList<CustomerSaleView> customerSales = FXCollections.observableArrayList(
-            new CustomerSaleView("123654","Juan", "123168", "2313568468" ,1236,LocalDate.now()),
-            new CustomerSaleView("123654","Carlos", "123168", "2313568468" ,1236,LocalDate.now())
+            salesRecordList
         );
         tableViewSales.setItems(customerSales);
     }
