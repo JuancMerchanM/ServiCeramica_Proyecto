@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 
-public class CustomerSaleView implements Serializable{
+public class Sale implements Serializable{
     private String saleId;
     private String custName;
     private String custCard;
@@ -12,7 +12,7 @@ public class CustomerSaleView implements Serializable{
     private double saleAmount;
     private LocalDate saleDate;
 
-    public CustomerSaleView(String saleId, String custName, String custCard, String custPhone, double saleAmount,
+    public Sale(String saleId, String custName, String custCard, String custPhone, double saleAmount,
             LocalDate saleDate) {
         this.saleId = saleId;
         this.custName = custName;
@@ -22,7 +22,7 @@ public class CustomerSaleView implements Serializable{
         this.saleDate = saleDate;
     }
 
-    public CustomerSaleView(){
+    public Sale(){
         
     }
 

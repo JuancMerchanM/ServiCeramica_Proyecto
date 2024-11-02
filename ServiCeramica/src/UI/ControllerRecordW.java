@@ -3,7 +3,7 @@ package UI;
 import java.util.List;
 
 import Logic.FileJsonPersistence;
-import Model.CustomerSaleView;
+import Model.Sale;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -32,19 +32,19 @@ public class ControllerRecordW {
     HBox records;
 
     @FXML
-    TableView<CustomerSaleView> tableViewSales;
+    TableView<Sale> tableViewSales;
     @FXML
-    private TableColumn<CustomerSaleView, String> idSaleCol;
+    private TableColumn<Sale, String> idSaleCol;
     @FXML
-    private TableColumn<CustomerSaleView, String> custNameCol;
+    private TableColumn<Sale, String> custNameCol;
     @FXML
-    private TableColumn<CustomerSaleView, String> custCardCol;
+    private TableColumn<Sale, String> custCardCol;
     @FXML
-    private TableColumn<CustomerSaleView, Double> custPhoneCol;
+    private TableColumn<Sale, Double> custPhoneCol;
     @FXML
-    private TableColumn<CustomerSaleView, String> saleAmountCol;
+    private TableColumn<Sale, String> saleAmountCol;
     @FXML
-    private TableColumn<CustomerSaleView, String> saleDateCol;
+    private TableColumn<Sale, String> saleDateCol;
 
     @FXML
     public void initialize() {
@@ -68,9 +68,9 @@ public class ControllerRecordW {
         saleAmountCol.setCellValueFactory(new PropertyValueFactory<>("saleAmount"));
         saleDateCol.setCellValueFactory(new PropertyValueFactory<>("saleDate"));
         
-        FileJsonPersistence<CustomerSaleView> salesRecord = new FileJsonPersistence<CustomerSaleView>("resources/salesRecord.json");
-        List<CustomerSaleView> salesRecordList= salesRecord.getObjects(CustomerSaleView.class);
-        ObservableList<CustomerSaleView> customerSales = FXCollections.observableArrayList(
+        FileJsonPersistence<Sale> salesRecord = new FileJsonPersistence<Sale>("resources/salesRecord.json");
+        List<Sale> salesRecordList= salesRecord.getObjects(Sale.class);
+        ObservableList<Sale> customerSales = FXCollections.observableArrayList(
             salesRecordList
         );
         tableViewSales.setItems(customerSales);
