@@ -24,7 +24,7 @@
             <Button fx:id="reportes" text="Reportes" styleClass="button-header"/>
         </HBox>
         <HBox fx:id="searchBox">
-            <ComboBox fx:id="comboBox" prefWidth="150">
+            <ComboBox fx:id="searchOption" prefWidth="150" value="Id Venta">
                 <!-- Opciones del ComboBox -->
                 <items>
                     <FXCollections fx:factory="observableArrayList">
@@ -34,7 +34,8 @@
                     </FXCollections>
                 </items>
             </ComboBox>
-            <TextField/>
+            <TextField fx:id="seachBar"/>
+            <Button text="Buscar" onAction="#searchProduct"/>
         </HBox>
         <HBox fx:id="records">
             <VBox fx:id="tableBox">
@@ -51,11 +52,12 @@
             </VBox>
             <VBox  fx:id="recordInfoTable" style="-fx-pref-width: 300">
                 <Label text="Filtrar por fecha"/>
-                <Label text="Desde:"/><DatePicker/>
-                <Label text="Hasta:"/><DatePicker/>
+                <Label text="Desde:"/><DatePicker fx:id="filDateInit"/>
+                <Label text="Hasta:"/><DatePicker fx:id="filDateEnd"/>
                 <Label text="Filtrar por valor de la compra"/>
-                <Label text="Desde:"/><TextField/>
-                <Label text="Hasta:"/><TextField/>
+                <Label text="Desde:"/><TextField fx:id="filPriceInit"/>
+                <Label text="Hasta:"/><TextField fx:id="filPriceEnd"/>
+                <Button text="Filtrar" onAction="#filter"/>
                 <VBox fx:id="selectRecordInfo">
                     <Label fx:id="idSold"/>
                     <Label fx:id="dateSold"/>

@@ -1,10 +1,114 @@
 [
   {
-    "saleId": "31",
-    "custName": "asdfasd",
-    "custCard": "asdfas",
-    "custPhone": "asdfa",
-    "saleAmount": 0.0,
-    "saleDate": "2024-10-31"
+    "saleId": "1",
+    "custName": "John Doe",
+    "custCard": "1234-5678-9101",
+    "custPhone": "555-1234",
+    "saleAmount": 125.50,
+    "saleDate": "2024-10-01"
+  },
+  {
+    "saleId": "2",
+    "custName": "Jane Smith",
+    "custCard": "4321-8765-1019",
+    "custPhone": "555-5678",
+    "saleAmount": 200.75,
+    "saleDate": "2024-10-02"
+  },
+  {
+    "saleId": "3",
+    "custName": "Michael Brown",
+    "custCard": "1111-2222-3333",
+    "custPhone": "555-8765",
+    "saleAmount": 99.99,
+    "saleDate": "2024-10-03"
+  },
+  {
+    "saleId": "4",
+    "custName": "Emily Johnson",
+    "custCard": "9999-8888-7777",
+    "custPhone": "555-4321",
+    "saleAmount": 150.00,
+    "saleDate": "2024-10-04"
+  },
+  {
+    "saleId": "5",
+    "custName": "Chris Lee",
+    "custCard": "5555-6666-7777",
+    "custPhone": "555-3456",
+    "saleAmount": 250.25,
+    "saleDate": "2024-10-05"
+  },
+  {
+    "saleId": "6",
+    "custName": "Sophia Martinez",
+    "custCard": "2222-3333-4444",
+    "custPhone": "555-6543",
+    "saleAmount": 80.40,
+    "saleDate": "2024-10-06"
+  },
+  {
+    "saleId": "7",
+    "custName": "James Davis",
+    "custCard": "7777-8888-9999",
+    "custPhone": "555-7654",
+    "saleAmount": 300.10,
+    "saleDate": "2024-10-07"
+  },
+  {
+    "saleId": "1",
+    "custName": "John Doe",
+    "custCard": "1234-5678-9101",
+    "custPhone": "555-1234",
+    "saleAmount": 125.50,
+    "saleDate": "2024-10-01"
+  },
+  {
+    "saleId": "2",
+    "custName": "Jane Smith",
+    "custCard": "4321-8765-1019",
+    "custPhone": "555-5678",
+    "saleAmount": 200.75,
+    "saleDate": "2024-10-02"
+  },
+  {
+    "saleId": "3",
+    "custName": "Michael Brown",
+    "custCard": "1111-2222-3333",
+    "custPhone": "555-8765",
+    "saleAmount": 99.99,
+    "saleDate": "2024-10-03"
+  },
+  {
+    "saleId": "4",
+    "custName": "Emily Johnson",
+    "custCard": "9999-8888-7777",
+    "custPhone": "555-4321",
+    "saleAmount": 150.00,
+    "saleDate": "2024-10-04"
+  },
+  {
+    "saleId": "5",
+    "custName": "Chris Lee",
+    "custCard": "5555-6666-7777",
+    "custPhone": "555-3456",
+    "saleAmount": 250.25,
+    "saleDate": "2024-10-05"
+  },
+  {
+    "saleId": "6",
+    "custName": "Sophia Martinez",
+    "custCard": "2222-3333-4444",
+    "custPhone": "555-6543",
+    "saleAmount": 80.40,
+    "saleDate": "2024-10-06"
+  },
+  {
+    "saleId": "7",
+    "custName": "James Davis",
+    "custCard": "7777-8888-9999",
+    "custPhone": "555-7654",
+    "saleAmount": 300.10,
+    "saleDate": "2024-10-07"
   }
 ]
