@@ -121,7 +121,7 @@ public class ControllerRecordW {
 
     @FXML
     public void filter() {
-
+        manageSaleTable.reloadSalesRecordList();
         ObservableList<Sale> saleFilterList = manageSaleTable.getSalesRecordList();
 
         try {
@@ -154,4 +154,13 @@ public class ControllerRecordW {
         }
     }
 
+    @FXML
+    public void cleanFilters(){
+        filDateEnd.setValue(null);
+        filDateInit.setValue(null);
+        filPriceEnd.setText("");
+        filPriceInit.setText("");
+        manageSaleTable.reloadSalesRecordList();
+        tableViewSales.setItems(manageSaleTable.getSalesRecordList());
+    }
 }

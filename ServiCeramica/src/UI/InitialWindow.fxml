@@ -10,7 +10,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.ControllerInitW">
     <HBox fx:id="header" styleClass="custom-hbox"></HBox>
-    <VBox fx:id="content" alignment="CENTER">
+    <VBox fx:id="content" alignment="CENTER" styleClass="login-container">
         <VBox styleClass="custom-vbox" style="-fx-spacing:12">
             <Label fx:id="lbTitle" text="ServiCeramica" style="-fx-text-fill: rgb(114, 0, 0); -fx-font-size: 22px;"/>
             <Label fx:id="lbSubTitle" text="Inicicar Sesion" style="-fx-font-size: 24px;"/>
@@ -21,11 +21,11 @@
         </VBox>
         <VBox styleClass="custom-vbox">
             <Label fx:id="lbPassword" text="Contraseña"/>
-            <TextField fx:id="tfPassword" text="********"/>
+            <TextField fx:id="tfPassword" text="********" styleClass="password-field"/>
         </VBox>
         <HBox styleClass="custom-vbox">
             <CheckBox fx:id="checkRemind" text="Recuerdame" selected="false"/>
         </HBox>
-        <Button fx:id="loginBtton" text="Iniciar sesion" style="-fx-text-fill: rgb(114, 0, 0);" onAction="#login"/>
+        <Button fx:id="loginBtton" text="Iniciar sesion" onAction="#login" styleClass="button"/>
     </VBox>
 </VBox>

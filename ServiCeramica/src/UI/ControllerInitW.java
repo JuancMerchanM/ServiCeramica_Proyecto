@@ -43,8 +43,6 @@ public class ControllerInitW {
         String password = UserManager.loadPassword();
         if (userName.equals(tfUserName.getText()) && password.equals(tfPassword.getText())) {
             App.setRoot("../UI/RecordWindow");
-            App.scene.getStylesheets().clear();
-            App.scene.getStylesheets().add(App.class.getResource("../UI/RecordWindowCSS.css").toExternalForm());
             if (checkRemind.isSelected()) {
                 UserManager.saveStateRemind(true);
             }else{

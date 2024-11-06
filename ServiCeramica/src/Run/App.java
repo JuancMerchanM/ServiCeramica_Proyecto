@@ -19,7 +19,6 @@ public class App extends Application {
         scene.getStylesheets().add(App.class.getResource("../UI/InitialWindowCSS.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("inicio");
-        stage.setResizable(false);
         stage.setMaximized(true);
         stage.show();
     }

@@ -2,7 +2,6 @@ package Logic;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Tooltip;
 import javafx.util.StringConverter;
 
 import java.time.LocalDate;
