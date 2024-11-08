@@ -17,6 +17,7 @@
 <?import java.lang.String?>
 
 
+
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.ControllerRecordW">
     <children>
         <HBox fx:id="header" prefHeight="130" minHeight="130"/>
@@ -92,7 +93,7 @@
                             </children>
                     </GridPane>
 
-                    <VBox fx:id="selectRecordInfo" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2">
+                    <VBox fx:id="selectRecordInfo" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2" alignment="CENTER">
                         <Label fx:id="messageSaleInfo" text="Seleccione un registro en la tabla para ver la informacion."/>
                         <VBox fx:id="infoSale" visible="false" managed="false" VBox.vgrow="ALWAYS" style="-fx-padding: 10;">
                             <HBox styleClass="hbox-info">
@@ -117,8 +118,11 @@
                         </VBox>
                     </VBox>
 
-                    <VBox fx:id="reports" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                        <Label text="reportes"/>
+                    <VBox GridPane.columnIndex="0" GridPane.rowIndex="2" alignment="CENTER" style="-fx-spacing:7;">
+                        <VBox fx:id="reports" VBox.vgrow="ALWAYS">
+                            <Label text="reportes"/>
+                        </VBox>
+                        <Button text="Cerrar sesion" onAction="#backLogin"/>
                     </VBox>
 
                 </children>

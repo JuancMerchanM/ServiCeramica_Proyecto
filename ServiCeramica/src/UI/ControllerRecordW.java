@@ -1,5 +1,6 @@
 package UI;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import Logic.DatePickerAdapter;
 import Logic.FileJsonPersistence;
 import Logic.ManageSaleTable;
 import Model.Sale;
+import Run.App;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -72,6 +74,13 @@ public class ControllerRecordW {
         saleAmountCol.setCellValueFactory(new PropertyValueFactory<>("saleAmount"));
         saleDateCol.setCellValueFactory(new PropertyValueFactory<>("saleDate"));
 
+        tableViewSales.widthProperty().addListener((obs, oldWidth, newWidth) -> {
+            double newColumnWidth = newWidth.doubleValue() / 6; // Dividir el ancho en partes iguales
+            tableViewSales.getColumns().forEach(column -> column.setPrefWidth(newColumnWidth));
+        });
+
+        tableViewSales.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
+
         FileJsonPersistence<Sale> salesRecord = new FileJsonPersistence<Sale>("resources/salesRecord.json");
         List<Sale> salesRecordList = salesRecord.getObjects(Sale.class);
         ObservableList<Sale> customerSales = FXCollections.observableArrayList(
@@ -93,6 +102,11 @@ public class ControllerRecordW {
             }
             
         });
+    }
+
+    @FXML
+    public void backLogin() throws IOException{
+        App.setRoot("../UI/InitialWindow");
     }
 
     @FXML

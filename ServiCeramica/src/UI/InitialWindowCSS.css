@@ -124,24 +124,52 @@
 }
 
 #recordInfoTable{
+    -fx-background-color: white;
+    -fx-background-radius: 8;
     -fx-hgap:4;
     -fx-vgap:5;
     -fx-padding:10;
     -fx-border-width: 2;
-    -fx-border-color: rgb(114, 31, 31);
-    -fx-border-radius: 5;
+    -fx-border-color: white;
+    -fx-border-radius: 8;
+    -fx-effect: dropshadow(three-pass-box,rgb(0, 0, 0), 10, 0, 1, 3);
 }
 
 #selectRecordInfo{
+    -fx-background-color: white;
+    -fx-background-radius: 8;
     -fx-border-width: 2;
-    -fx-border-color: rgb(114, 31, 31);
-    -fx-border-radius: 5;
+    -fx-border-color: white;
+    -fx-border-radius: 8;
+    -fx-effect: dropshadow(three-pass-box,rgb(0, 0, 0), 10, 0, 1, 3);
+}
+
+#reports{
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-width: 2;
+    -fx-border-color: white;
+    -fx-border-radius: 8;
+    -fx-effect: dropshadow(three-pass-box,rgb(0, 0, 0), 10, 0, 1, 2);
 }
 
 .table-view {
-    -fx-border-width: 0;
     -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-width: 2;
+    -fx-border-color: white;
+    -fx-border-radius: 8;
+    -fx-effect: dropshadow(three-pass-box,rgb(0, 0, 0), 10, 0, 1, 2);
 }
+
+.table-view .column-header {
+    -fx-padding: 0;
+    -fx-border-radius: 0;
+    -fx-border-width: 0 0 2 0;
+    -fx-background-color: white;
+    -fx-border-color: black;
+}
+
 .table-view .column-header .label {
     -fx-text-fill: #000000;
     -fx-font-weight: bold;
@@ -174,6 +202,15 @@
 #filDateInit .text-field, #filDateEnd .text-field {
     -fx-background-radius: 0;
     -fx-border-radius: 10 0 0 10;
+}
+
+.combo-box{
+    -fx-background-color: #f8fcfe;
+    -fx-background-radius: 10;
+    -fx-text-fill: rgb(0, 0, 0);
+    -fx-font-weight: bold;
+    -fx-padding: 5 9;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 6, 0, 0, 2);
 }
 
 .date-picker .arrow-button {

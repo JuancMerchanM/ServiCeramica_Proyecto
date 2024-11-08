@@ -4,6 +4,7 @@ import Logic.UserManager;
 import Run.App;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -15,7 +16,7 @@ public class ControllerInitW {
     @FXML
     private TextField tfUserName;
     @FXML
-    private TextField tfPassword;
+    private PasswordField tfPassword;
 
     @FXML
     private CheckBox checkRemind;

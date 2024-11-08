@@ -51,11 +51,11 @@ public class ManageSaleTable {
     }
 
     public ObservableList<Sale> filterDate(LocalDate start, LocalDate end){
-        return filter(sale -> sale.getSaleDate().isAfter(start) && sale.getSaleDate().isBefore(end));
+        return filter(sale -> !(sale.getSaleDate().isBefore(start) || sale.getSaleDate().isAfter(end)));
     }
 
     public ObservableList<Sale> filterPrice(Double start, Double end){
-        return filter(sale -> sale.getSaleAmount() > start && sale.getSaleAmount() < end);
+        return filter(sale -> sale.getSaleAmount() >= start && sale.getSaleAmount() <= end);
     }
 
     public void setSalesRecordList(ObservableList<Sale> salesRecordList){

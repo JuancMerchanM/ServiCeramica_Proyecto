@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.PasswordField?>
 
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.ControllerInitW">
@@ -21,7 +22,7 @@
         </VBox>
         <VBox styleClass="custom-vbox">
             <Label fx:id="lbPassword" text="Contraseña"/>
-            <TextField fx:id="tfPassword" text="********"/>
+            <PasswordField fx:id="tfPassword" style="-fx-font-size: 8;"/>
         </VBox>
         <HBox styleClass="custom-vbox">
             <CheckBox fx:id="checkRemind" text="Recuerdame" selected="false"/>
