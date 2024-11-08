@@ -3,7 +3,7 @@
     -fx-font-size: 12px;
 }
 
-.custom-hbox{
+#header{
     -fx-background-color: rgb(114, 0, 0);
     -fx-background-image: url("LogoServiCeramica.jpg");
     -fx-background-position: center;
@@ -20,7 +20,7 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 5);
 }
 
-.text-field, .password-field {
+.text-field {
     -fx-background-radius: 10;
     -fx-border-radius: 10;
     -fx-background-color: #f7f7f7;
@@ -115,4 +115,95 @@
 .check-box:pressed .box {
     -fx-background-color: #ac2925;
     -fx-border-color: #ac2925;
+}
+
+#records{
+    -fx-hgap:10;
+    -fx-vgap:12;
+    -fx-padding:12;
+}
+
+#recordInfoTable{
+    -fx-hgap:4;
+    -fx-vgap:5;
+    -fx-padding:10;
+    -fx-border-width: 2;
+    -fx-border-color: rgb(114, 31, 31);
+    -fx-border-radius: 5;
+}
+
+#selectRecordInfo{
+    -fx-border-width: 2;
+    -fx-border-color: rgb(114, 31, 31);
+    -fx-border-radius: 5;
+}
+
+.table-view {
+    -fx-border-width: 0;
+    -fx-background-color: white;
+}
+.table-view .column-header .label {
+    -fx-text-fill: #000000;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f0f2f5;
+}
+
+.table-row-cell:even {
+    -fx-background-color: white;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #b3c2cc;
+    -fx-text-fill: black;
+}
+
+.table-cell {
+    -fx-text-fill: #333333;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 0 0 1px 0;
+    -fx-padding: 10px;
+}
+
+.date-picker {
+    -fx-background-radius: 10 5px 5px 10;
+}
+
+#filDateInit .text-field, #filDateEnd .text-field {
+    -fx-background-radius: 0;
+    -fx-border-radius: 10 0 0 10;
+}
+
+.date-picker .arrow-button {
+    -fx-background-color: #f9f9f9;
+    -fx-border-radius: 0 5px 5px 0;
+}
+
+.date-picker .popup {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+}
+
+.date-picker .day-cell {
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: black;
+}
+
+.date-picker .day-cell:hover {
+    -fx-background-color: lightblue;
+}
+
+.date-picker .day-cell:selected {
+    -fx-background-color: #ff6666; /* Ejemplo de color rojo */
+    -fx-padding: 2;
+    -fx-text-fill: white;
+}
+
+.label-info-value{
+    -fx-padding: 0 65 0 8;
+}
+.hbox-info{
+    -fx-padding: 7;
 }

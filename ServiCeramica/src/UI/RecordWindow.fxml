@@ -7,67 +7,123 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import java.lang.String?>
 
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.ControllerRecordW">
-    <HBox fx:id="header" styleClass="custom-hbox"></HBox>
-    <VBox fx:id="content" alignment="CENTER">
-        <HBox fx:id="navMenu" style="-fx-pref-height:24; -fx-spacing:3;">
-            <Button fx:id="registros" text="Registros" styleClass="button-header"/>
-            <Button fx:id="registrarVenta" text="Registrar Venta" styleClass="button-header"/>
-            <Button fx:id="reportes" text="Reportes" styleClass="button-header"/>
-        </HBox>
-        <HBox fx:id="searchBox">
-            <ComboBox fx:id="searchOption" prefWidth="150" value="Id Venta">
-                <!-- Opciones del ComboBox -->
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="Id Venta"/>
-                        <String fx:value="Cedula cliente"/>
-                        <String fx:value="Nombre cliente"/>
-                    </FXCollections>
-                </items>
-            </ComboBox>
-            <TextField fx:id="seachBar"/>
-            <Button text="Buscar" onAction="#searchProduct"/>
-        </HBox>
-        <HBox fx:id="records">
-            <VBox fx:id="tableBox">
-                <TableView fx:id="tableViewSales" layoutX="10.0" layoutY="10.0">
-                    <columns>
-                        <TableColumn fx:id="idSaleCol" text="Id venta"/>
-                        <TableColumn fx:id="custNameCol" text="Nombre del cliente"/>
-                        <TableColumn fx:id="custCardCol" text="Cedula del cliente"/>
-                        <TableColumn fx:id="custPhoneCol" text="Telefono del cliente"/>
-                        <TableColumn fx:id="saleAmountCol" text="Valor de la venta"/>
-                        <TableColumn fx:id="saleDateCol" text="Fecha de la venta"/>
-                    </columns>
-                </TableView>
-            </VBox>
-            <VBox  fx:id="recordInfoTable" style="-fx-pref-width: 300">
-                <Label text="Filtrar por fecha"/>
-                <Label text="Desde:"/><DatePicker fx:id="filDateInit"/>
-                <Label text="Hasta:"/><DatePicker fx:id="filDateEnd"/>
-                <Label text="Filtrar por valor de la compra"/>
-                <Label text="Desde:"/><TextField fx:id="filPriceInit"/>
-                <Label text="Hasta:"/><TextField fx:id="filPriceEnd"/>
-                <Button text="Filtrar" onAction="#filter"/>
-                <Button text="Limpiar filtros" onAction="#cleanFilters"/>
-                <VBox fx:id="selectRecordInfo">
-                    <Label fx:id="idSold"/>
-                    <Label fx:id="dateSold"/>
-                    <Label fx:id="nameCust"/>
-                    <Label fx:id="totalSold"/>
-                    <Label fx:id="products"/>
-                </VBox>
-            </VBox>
-        </HBox>
-    </VBox>
+    <children>
+        <HBox fx:id="header" prefHeight="130" minHeight="130"/>
+
+        <VBox fx:id="content" alignment="CENTER" VBox.vgrow="ALWAYS">
+
+            <HBox fx:id="navMenu" style="-fx-pref-height:24; -fx-spacing:3;">
+                <Button fx:id="registros" text="Registros" styleClass="button-header"/>
+                <Button fx:id="registrarVenta" text="Registrar Venta" styleClass="button-header"/>
+            </HBox>
+
+            <HBox fx:id="searchBox">
+                <ComboBox fx:id="searchOption" prefWidth="150" value="Id Venta">
+                    <!-- Opciones del ComboBox -->
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Id Venta"/>
+                            <String fx:value="Cedula cliente"/>
+                            <String fx:value="Nombre cliente"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+                <TextField fx:id="seachBar"/>
+                <Button text="Buscar" onAction="#searchProduct"/>
+            </HBox>
+
+            <GridPane fx:id="records" VBox.vgrow="ALWAYS">
+
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="60"/>
+                    <ColumnConstraints percentWidth="40"/>
+                </columnConstraints>
+
+                <rowConstraints>
+                    <RowConstraints/>
+                    <RowConstraints percentHeight="25"/>
+                    <RowConstraints percentHeight="45"/>
+                </rowConstraints>
+
+                <children>
+
+                    <TableView fx:id="tableViewSales" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.rowSpan="2">
+                        <columns>
+                            <TableColumn fx:id="idSaleCol" text="Id venta"/>
+                            <TableColumn fx:id="custNameCol" text="Nombre del cliente"/>
+                            <TableColumn fx:id="custCardCol" text="Cedula del cliente"/>
+                            <TableColumn fx:id="custPhoneCol" text="Telefono del cliente"/>
+                            <TableColumn fx:id="saleAmountCol" text="Valor de la venta"/>
+                            <TableColumn fx:id="saleDateCol" text="Fecha de la venta"/>
+                        </columns>
+                    </TableView>
+
+                    <GridPane fx:id="recordInfoTable" GridPane.columnIndex="1" GridPane.rowIndex="0" alignment="CENTER">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="12" halignment="CENTER"/>
+                            <ColumnConstraints percentWidth="35"/>
+                            <ColumnConstraints percentWidth="12" halignment="CENTER"/>
+                            <ColumnConstraints percentWidth="35"/>
+                        </columnConstraints>
+                            <children>
+                                <Label text="Filtrar por fecha" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+                                <Label text="Desde:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                <DatePicker fx:id="filDateInit" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                <Label text="Hasta:" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                                <DatePicker fx:id="filDateEnd" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                                <Label text="Filtrar por valor de la compra" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="2"/>
+                                <Label text="Desde:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                                <TextField fx:id="filPriceInit" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                                <Label text="Hasta:" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+                                <TextField fx:id="filPriceEnd" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+                                <Button text="Filtrar" onAction="#filter" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="2"/>
+                                <Button text="Limpiar filtros" onAction="#cleanFilters" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.columnSpan="2"/>
+                            </children>
+                    </GridPane>
+
+                    <VBox fx:id="selectRecordInfo" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2">
+                        <Label fx:id="messageSaleInfo" text="Seleccione un registro en la tabla para ver la informacion."/>
+                        <VBox fx:id="infoSale" visible="false" managed="false" VBox.vgrow="ALWAYS" style="-fx-padding: 10;">
+                            <HBox styleClass="hbox-info">
+                                <Label text="Identificador de venta:"/>
+                                <Label fx:id="saleId" styleClass="label-info-value"/>
+                                <Label text="Fecha de la venta:"/>
+                                <Label fx:id="saleDate" styleClass="label-info-value"/>
+                            </HBox>
+                            <HBox styleClass="hbox-info">
+                                <Label text="Nombre del cliente:"/>
+                                <Label fx:id="custName" styleClass="label-info-value"/>
+                                <Label text="Contacto:"/>
+                                <Label fx:id="custContact" styleClass="label-info-value"/>
+                            </HBox>
+                            <HBox styleClass="hbox-info" VBox.vgrow="ALWAYS">
+                                <Label text="Productos"/>
+                            </HBox>
+                            <HBox styleClass="hbox-info">
+                                <Label text="Monto total:"/>
+                                <Label fx:id="amountTotal" styleClass="label-info-value"/>
+                            </HBox>
+                        </VBox>
+                    </VBox>
+
+                    <VBox fx:id="reports" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                        <Label text="reportes"/>
+                    </VBox>
+
+                </children>
+            </GridPane >
+        </VBox>
+    </children>
+    
 </VBox>
-<!-- styleClass="view-border" -->

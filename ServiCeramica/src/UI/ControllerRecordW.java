@@ -7,6 +7,8 @@ import Logic.DatePickerAdapter;
 import Logic.FileJsonPersistence;
 import Logic.ManageSaleTable;
 import Model.Sale;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,6 +16,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -23,49 +26,35 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class ControllerRecordW {
-    @FXML
-    Button registros;
-    @FXML
-    Button registrarVenta;
-    @FXML
-    Button reportes;
-    @FXML
-    VBox tableBox;
-    @FXML
-    VBox filterBox;
-    @FXML
-    VBox content;
-    @FXML
-    HBox records;
+    @FXML Button registros;
+    @FXML Button registrarVenta;
+    @FXML VBox content;
+    @FXML VBox infoSale;
 
-    @FXML
-    TableView<Sale> tableViewSales;
-    @FXML
-    private TableColumn<Sale, String> idSaleCol;
-    @FXML
-    private TableColumn<Sale, String> custNameCol;
-    @FXML
-    private TableColumn<Sale, String> custCardCol;
-    @FXML
-    private TableColumn<Sale, Double> custPhoneCol;
-    @FXML
-    private TableColumn<Sale, String> saleAmountCol;
-    @FXML
-    private TableColumn<Sale, String> saleDateCol;
+    @FXML TableView<Sale> tableViewSales;
+    @FXML private TableColumn<Sale, String> idSaleCol;
+    @FXML private TableColumn<Sale, String> custNameCol;
+    @FXML private TableColumn<Sale, String> custCardCol;
+    @FXML private TableColumn<Sale, Double> custPhoneCol;
+    @FXML private TableColumn<Sale, String> saleAmountCol;
+    @FXML private TableColumn<Sale, String> saleDateCol;
 
-    @FXML
-    private TextField seachBar;
-    @FXML
-    private ComboBox<String> searchOption;
+    @FXML private TextField seachBar;
+    @FXML private ComboBox<String> searchOption;
 
-    @FXML
-    DatePicker filDateInit;
-    @FXML
-    DatePicker filDateEnd;
-    @FXML
-    TextField filPriceInit;
-    @FXML
-    TextField filPriceEnd;
+    @FXML DatePicker filDateInit;
+    @FXML DatePicker filDateEnd;
+    @FXML TextField filPriceInit;
+    @FXML TextField filPriceEnd;
+
+    @FXML Label messageSaleInfo;
+
+    @FXML Label saleId;
+    @FXML Label saleDate;
+    @FXML Label custName;
+    @FXML Label custContact;
+    @FXML Label amountTotal;
+    
 
     ManageSaleTable manageSaleTable;
 
@@ -73,16 +62,8 @@ public class ControllerRecordW {
     public void initialize() {
         HBox.setHgrow(registros, Priority.ALWAYS);
         HBox.setHgrow(registrarVenta, Priority.ALWAYS);
-        HBox.setHgrow(reportes, Priority.ALWAYS);
-        HBox.setHgrow(tableBox, Priority.ALWAYS);
-        VBox.setVgrow(content, Priority.ALWAYS);
-        VBox.setVgrow(records, Priority.ALWAYS);
-        tableBox.setMaxWidth(Double.MAX_VALUE);
         registros.setMaxWidth(Double.MAX_VALUE);
         registrarVenta.setMaxWidth(Double.MAX_VALUE);
-        reportes.setMaxWidth(Double.MAX_VALUE);
-        content.setMaxHeight(Double.MAX_VALUE);
-        records.setMaxHeight(Double.MAX_VALUE);
 
         idSaleCol.setCellValueFactory(new PropertyValueFactory<>("saleId"));
         custNameCol.setCellValueFactory(new PropertyValueFactory<>("custName"));
@@ -101,6 +82,17 @@ public class ControllerRecordW {
 
         DatePickerAdapter.configureDatePicker(filDateEnd);
         DatePickerAdapter.configureDatePicker(filDateInit);
+
+        tableViewSales.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Sale>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Sale> observableValue, Sale oldValue, Sale newValue) {
+                if (newValue != null) {
+                    showSale(newValue);
+                }
+            }
+            
+        });
     }
 
     @FXML
@@ -162,5 +154,18 @@ public class ControllerRecordW {
         filPriceInit.setText("");
         manageSaleTable.reloadSalesRecordList();
         tableViewSales.setItems(manageSaleTable.getSalesRecordList());
+    }
+
+    public void showSale(Sale selectSale){
+        messageSaleInfo.setManaged(false);
+        messageSaleInfo.setVisible(false);
+        infoSale.setManaged(true);
+        infoSale.setVisible(true);
+
+        saleId.setText(selectSale.getSaleId());
+        saleDate.setText(selectSale.getSaleDate().toString());
+        custName.setText(selectSale.getCustName());
+        custContact.setText(selectSale.getCustPhone());
+        amountTotal.setText("Calcular");
     }
 }
