@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class ControllerInitW {
+public class ContInitW {
     @FXML
     private VBox content;
 

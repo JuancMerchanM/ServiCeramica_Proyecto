@@ -18,15 +18,15 @@
 
 
 
-<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.ControllerRecordW">
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.ContRecordW">
     <children>
         <HBox fx:id="header" prefHeight="130" minHeight="130"/>
 
         <VBox fx:id="content" alignment="CENTER" VBox.vgrow="ALWAYS">
 
             <HBox fx:id="navMenu" style="-fx-pref-height:24; -fx-spacing:3;">
-                <Button fx:id="registros" text="Registros" styleClass="button-header"/>
-                <Button fx:id="registrarVenta" text="Registrar Venta" styleClass="button-header"/>
+                <Button fx:id="registros" text="Registros" styleClass="button-header" HBox.hgrow="ALWAYS"/>
+                <Button fx:id="registrarVenta" text="Registrar Venta" styleClass="button-header" HBox.hgrow="ALWAYS" onAction="#changeSaleRecord"/>
             </HBox>
 
             <HBox fx:id="searchBox">
@@ -70,7 +70,7 @@
                         </columns>
                     </TableView>
 
-                    <GridPane fx:id="recordInfoTable" GridPane.columnIndex="1" GridPane.rowIndex="0" alignment="CENTER">
+                    <GridPane fx:id="recordInfoTable" GridPane.columnIndex="1" GridPane.rowIndex="0" alignment="CENTER" styleClass="box-content">
                         <columnConstraints>
                             <ColumnConstraints percentWidth="12" halignment="CENTER"/>
                             <ColumnConstraints percentWidth="35"/>
@@ -93,7 +93,7 @@
                             </children>
                     </GridPane>
 
-                    <VBox fx:id="selectRecordInfo" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2" alignment="CENTER">
+                    <VBox fx:id="selectRecordInfo" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2" alignment="CENTER" styleClass="box-content">
                         <Label fx:id="messageSaleInfo" text="Seleccione un registro en la tabla para ver la informacion."/>
                         <VBox fx:id="infoSale" visible="false" managed="false" VBox.vgrow="ALWAYS" style="-fx-padding: 10;">
                             <HBox styleClass="hbox-info">
@@ -119,7 +119,7 @@
                     </VBox>
 
                     <VBox GridPane.columnIndex="0" GridPane.rowIndex="2" alignment="CENTER" style="-fx-spacing:7;">
-                        <VBox fx:id="reports" VBox.vgrow="ALWAYS">
+                        <VBox fx:id="reports" VBox.vgrow="ALWAYS" styleClass="box-content">
                             <Label text="reportes"/>
                         </VBox>
                         <Button text="Cerrar sesion" onAction="#backLogin"/>

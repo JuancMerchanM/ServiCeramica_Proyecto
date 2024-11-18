@@ -1,0 +1,62 @@
+[
+    {
+      "id": "P001",
+      "name": "Cerámica Blanco Mate",
+      "category": "pisos y paredes",
+      "price": 25.99
+    },
+    {
+      "id": "P002",
+      "name": "Porcelanato Gris Pulido",
+      "category": "pisos y paredes",
+      "price": 45.50
+    },
+    {
+      "id": "P003",
+      "name": "Lavamanos Ovalado",
+      "category": "baño",
+      "price": 120.75
+    },
+    {
+      "id": "P004",
+      "name": "Mueble Bajo para Lavamanos",
+      "category": "baño",
+      "price": 85.90
+    },
+    {
+      "id": "P005",
+      "name": "Grifería de Acero Inoxidable",
+      "category": "cocina",
+      "price": 70.00
+    },
+    {
+      "id": "P006",
+      "name": "Fregadero Doble Acero Inoxidable",
+      "category": "cocina",
+      "price": 180.50
+    },
+    {
+      "id": "P007",
+      "name": "Adhesivo para Cerámica",
+      "category": "pisos y paredes",
+      "price": 15.30
+    },
+    {
+      "id": "P008",
+      "name": "Ducha Eléctrica de Lujo",
+      "category": "baño",
+      "price": 135.00
+    },
+    {
+      "id": "P009",
+      "name": "Cenefa Decorativa Floral",
+      "category": "pisos y paredes",
+      "price": 12.45
+    },
+    {
+      "id": "P010",
+      "name": "Encimera de Granito Negro",
+      "category": "cocina",
+      "price": 250.00
+    }
+]

@@ -22,7 +22,7 @@ public class UserManager {
     }
 
     public static String loadUserName() {
-        try (FileInputStream fis = new FileInputStream("resources/userCredentials.properties")) {
+        try (FileInputStream fis = new FileInputStream(PATH)) {
             properties.load(fis);
             return properties.getProperty("userName");
         } catch (IOException e) {
@@ -32,7 +32,7 @@ public class UserManager {
     }
 
     public static String loadPassword() {
-        try (FileInputStream fis = new FileInputStream("resources/userCredentials.properties")) {
+        try (FileInputStream fis = new FileInputStream(PATH)) {
             properties.load(fis);
             return properties.getProperty("password");
         } catch (IOException e) {
@@ -42,7 +42,7 @@ public class UserManager {
     }
 
     public static Boolean loadStateRemind() {
-        try (FileInputStream fis = new FileInputStream("resources/userCredentials.properties")) {
+        try (FileInputStream fis = new FileInputStream(PATH)) {
             properties.load(fis);
             return Boolean.parseBoolean(properties.getProperty("remind"));
         } catch (IOException e) {

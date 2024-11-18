@@ -1,77 +1,52 @@
 package Model;
 
-import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 
-
-public class Sale implements Serializable{
+public class Sale {
     private String saleId;
-    private String custName;
-    private String custCard;
-    private String custPhone;
-    private double saleAmount;
+    private Customer customer; 
     private LocalDate saleDate;
-
-    public Sale(String saleId, String custName, String custCard, String custPhone, double saleAmount,
-            LocalDate saleDate) {
-        this.saleId = saleId;
-        this.custName = custName;
-        this.custCard = custCard;
-        this.custPhone = custPhone;
-        this.saleAmount = saleAmount;
-        this.saleDate = saleDate;
-    }
-
-    public Sale(){
-        
-    }
+    private LocalTime saleTime;
+    private double totalAmount;
+    private List<ProductOrder> products;
 
     public String getSaleId() {
         return saleId;
     }
-
     public void setSaleId(String saleId) {
         this.saleId = saleId;
     }
-
-    public String getCustName() {
-        return custName;
+    public Customer getCustomer() {
+        return customer;
     }
-
-    public void setCustName(String custName) {
-        this.custName = custName;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
-
-    public String getCustCard() {
-        return custCard;
-    }
-
-    public void setCustCard(String custCard) {
-        this.custCard = custCard;
-    }
-
-    public String getCustPhone() {
-        return custPhone;
-    }
-
-    public void setCustPhone(String custPhone) {
-        this.custPhone = custPhone;
-    }
-
-    public double getSaleAmount() {
-        return saleAmount;
-    }
-
-    public void setSaleAmount(double saleAmount) {
-        this.saleAmount = saleAmount;
-    }
-
     public LocalDate getSaleDate() {
         return saleDate;
     }
-
     public void setSaleDate(LocalDate saleDate) {
         this.saleDate = saleDate;
+    }
+    public LocalTime getSaleTime() {
+        return saleTime;
+    }
+    public void setSaleTime(LocalTime saleTime) {
+        this.saleTime = saleTime;
+    }
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+    public List<ProductOrder> getProducts() {
+        return products;
+    }
+    public void setProducts(List<ProductOrder> products) {
+        this.products = products;
     }
 
 }

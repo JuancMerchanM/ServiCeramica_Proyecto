@@ -6,8 +6,8 @@ import java.util.List;
 
 import Logic.DatePickerAdapter;
 import Logic.FileJsonPersistence;
-import Logic.ManageSaleTable;
-import Model.Sale;
+import Logic.SaleTable;
+import Model.SaleRecord;
 import Run.App;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -27,38 +27,37 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class ControllerRecordW {
-    @FXML Button registros;
-    @FXML Button registrarVenta;
-    @FXML VBox content;
-    @FXML VBox infoSale;
+public class ContRecordW {
+    @FXML private Button registros;
+    @FXML private Button registrarVenta;
+    @FXML private VBox infoSale;
 
-    @FXML TableView<Sale> tableViewSales;
-    @FXML private TableColumn<Sale, String> idSaleCol;
-    @FXML private TableColumn<Sale, String> custNameCol;
-    @FXML private TableColumn<Sale, String> custCardCol;
-    @FXML private TableColumn<Sale, Double> custPhoneCol;
-    @FXML private TableColumn<Sale, String> saleAmountCol;
-    @FXML private TableColumn<Sale, String> saleDateCol;
+    @FXML private TableView<SaleRecord> tableViewSales;
+    @FXML private TableColumn<SaleRecord, String> idSaleCol;
+    @FXML private TableColumn<SaleRecord, String> custNameCol;
+    @FXML private TableColumn<SaleRecord, String> custCardCol;
+    @FXML private TableColumn<SaleRecord, Double> custPhoneCol;
+    @FXML private TableColumn<SaleRecord, String> saleAmountCol;
+    @FXML private TableColumn<SaleRecord, String> saleDateCol;
 
     @FXML private TextField seachBar;
     @FXML private ComboBox<String> searchOption;
 
-    @FXML DatePicker filDateInit;
-    @FXML DatePicker filDateEnd;
-    @FXML TextField filPriceInit;
-    @FXML TextField filPriceEnd;
+    @FXML private DatePicker filDateInit;
+    @FXML private DatePicker filDateEnd;
+    @FXML private TextField filPriceInit;
+    @FXML private TextField filPriceEnd;
 
-    @FXML Label messageSaleInfo;
+    @FXML private Label messageSaleInfo;
 
-    @FXML Label saleId;
-    @FXML Label saleDate;
-    @FXML Label custName;
-    @FXML Label custContact;
-    @FXML Label amountTotal;
+    @FXML private Label saleId;
+    @FXML private Label saleDate;
+    @FXML private Label custName;
+    @FXML private Label custContact;
+    @FXML private Label amountTotal;
     
 
-    ManageSaleTable manageSaleTable;
+    private SaleTable manageSaleTable;
 
     @FXML
     public void initialize() {
@@ -66,7 +65,7 @@ public class ControllerRecordW {
         HBox.setHgrow(registrarVenta, Priority.ALWAYS);
         registros.setMaxWidth(Double.MAX_VALUE);
         registrarVenta.setMaxWidth(Double.MAX_VALUE);
-
+        
         idSaleCol.setCellValueFactory(new PropertyValueFactory<>("saleId"));
         custNameCol.setCellValueFactory(new PropertyValueFactory<>("custName"));
         custCardCol.setCellValueFactory(new PropertyValueFactory<>("custCard"));
@@ -74,34 +73,35 @@ public class ControllerRecordW {
         saleAmountCol.setCellValueFactory(new PropertyValueFactory<>("saleAmount"));
         saleDateCol.setCellValueFactory(new PropertyValueFactory<>("saleDate"));
 
-        tableViewSales.widthProperty().addListener((obs, oldWidth, newWidth) -> {
-            double newColumnWidth = newWidth.doubleValue() / 6; // Dividir el ancho en partes iguales
-            tableViewSales.getColumns().forEach(column -> column.setPrefWidth(newColumnWidth));
-        });
+        // tableViewSales.widthProperty().addListener((obs, oldWidth, newWidth) -> {
+        //     double newColumnWidth = newWidth.doubleValue() / 6; // Dividir el ancho en partes iguales
+        //     tableViewSales.getColumns().forEach(column -> column.setPrefWidth(newColumnWidth));
+        // });
 
         tableViewSales.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
 
-        FileJsonPersistence<Sale> salesRecord = new FileJsonPersistence<Sale>("resources/salesRecord.json");
-        List<Sale> salesRecordList = salesRecord.getObjects(Sale.class);
-        ObservableList<Sale> customerSales = FXCollections.observableArrayList(
+        FileJsonPersistence<SaleRecord> salesRecord = new FileJsonPersistence<SaleRecord>("resources/salesRecord.json");
+        List<SaleRecord> salesRecordList = salesRecord.getObjects(SaleRecord.class);
+        ObservableList<SaleRecord> customerSales = FXCollections.observableArrayList(
                 salesRecordList);
         tableViewSales.setItems(customerSales);
 
-        manageSaleTable = new ManageSaleTable();
+        manageSaleTable = new SaleTable();
 
         DatePickerAdapter.configureDatePicker(filDateEnd);
         DatePickerAdapter.configureDatePicker(filDateInit);
 
-        tableViewSales.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Sale>() {
+        tableViewSales.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<SaleRecord>() {
 
             @Override
-            public void changed(ObservableValue<? extends Sale> observableValue, Sale oldValue, Sale newValue) {
+            public void changed(ObservableValue<? extends SaleRecord> observableValue, SaleRecord oldValue, SaleRecord newValue) {
                 if (newValue != null) {
                     showSale(newValue);
                 }
             }
             
         });
+
     }
 
     @FXML
@@ -110,11 +110,16 @@ public class ControllerRecordW {
     }
 
     @FXML
+    public void changeSaleRecord() throws IOException{
+        App.setRoot("../UI/SaleRecordW");
+    }
+
+    @FXML
     public void searchProduct() {
         String option = searchOption.getValue();
         String searchValue = seachBar.getText();
         manageSaleTable.reloadSalesRecordList();
-        ObservableList<Sale> saleList;
+        ObservableList<SaleRecord> saleList;
         if (option.equals("Id Venta")) {
             saleList = manageSaleTable.searchIdSale(searchValue);
         } else if (option.equals("Cedula cliente")) {
@@ -128,7 +133,7 @@ public class ControllerRecordW {
     @FXML
     public void filter() {
         manageSaleTable.reloadSalesRecordList();
-        ObservableList<Sale> saleFilterList = manageSaleTable.getSalesRecordList();
+        ObservableList<SaleRecord> saleFilterList = manageSaleTable.getSalesRecordList();
 
         try {
 
@@ -170,7 +175,7 @@ public class ControllerRecordW {
         tableViewSales.setItems(manageSaleTable.getSalesRecordList());
     }
 
-    public void showSale(Sale selectSale){
+    public void showSale(SaleRecord selectSale){
         messageSaleInfo.setManaged(false);
         messageSaleInfo.setVisible(false);
         infoSale.setManaged(true);

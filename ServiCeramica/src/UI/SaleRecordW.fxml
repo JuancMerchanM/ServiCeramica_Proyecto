@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.ContSaleRecord">
+    
+        <HBox fx:id="header" prefHeight="130" minHeight="130"/>
+
+        <VBox fx:id="content" alignment="CENTER" VBox.vgrow="ALWAYS">
+
+            <HBox fx:id="navMenu" style="-fx-pref-height:24; -fx-spacing:3;">
+                <Button fx:id="registros" text="Registros" styleClass="button-header" HBox.hgrow="ALWAYS" onAction="#changeRecord"/>
+                <Button fx:id="registrarVenta" text="Registrar Venta" styleClass="button-header" HBox.hgrow="ALWAYS"/>
+            </HBox>
+
+            <HBox style="-fx-padding:14; -fx-spacing:12">
+
+                <GridPane styleClass="grid-distribution,box-content" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                <!-- gridLinesVisible="true" -->
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="10" halignment="RIGHT"/>
+                        <ColumnConstraints/>
+                        <ColumnConstraints percentWidth="10" halignment="RIGHT"/>
+                        <ColumnConstraints/>
+                        <ColumnConstraints percentWidth="10" halignment="RIGHT"/>
+                        <ColumnConstraints/>
+                        <ColumnConstraints percentWidth="10" halignment="RIGHT"/>
+                        <ColumnConstraints/>
+                    </columnConstraints>
+
+                    <Label text="Datos del cliente" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+                    <Label text="Cedula" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <TextField fx:id="custCardTF" promptText="Ejemplo: 1057978632" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <Label text="Nombre" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                    <TextField fx:id="custNameTF" promptText="Nombre del cliente aqui" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                    <Label text="Telefono" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
+                    <TextField fx:id="custPhoneTF" promptText="Ejemplo: 3114561234" GridPane.columnIndex="5" GridPane.rowIndex="1"/>
+                    <Label text="Direccion" GridPane.columnIndex="6" GridPane.rowIndex="1"/>
+                    <TextField fx:id="custAddressTF" promptText="Ejemplo: Cll 8F #45" GridPane.columnIndex="7" GridPane.rowIndex="1"/>
+
+                </GridPane>
+
+                <GridPane styleClass="grid-distribution,box-content" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="20" halignment="RIGHT"/>
+                        <ColumnConstraints percentWidth="30"/>
+                        <ColumnConstraints percentWidth="20" halignment="RIGHT"/>
+                        <ColumnConstraints percentWidth="30"/>
+                    </columnConstraints>
+
+                    <Label text="Fecha venta" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <Label text="Fecha venta" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <TextField text="Example" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <Label text="Hora venta" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                    <TextField text="Example" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                </GridPane>
+
+            </HBox>
+
+            <HBox style="-fx-padding:14; -fx-spacing:12">
+                
+                <TableView fx:id="productTb" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                        <columns>
+                            <TableColumn fx:id="prodId" text="Id producto"/>
+                            <TableColumn fx:id="prodName" text="Nombre"/>
+                            <TableColumn fx:id="prodCategory" text="Categoria"/>
+                            <TableColumn fx:id="prodPrice" text="Precio"/>
+                        </columns>
+                </TableView>
+
+                <VBox styleClass="box-content">
+                    
+                    <HBox spacing="8" alignment="CENTER" style="-fx-padding:8;">
+                    
+                        <ComboBox fx:id="searchOption" prefWidth="150" value="Id producto">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Id producto"/>
+                                    <String fx:value="Nombre"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                        <!--  maxWidth="Infinity" alignment="CENTER_RIGHT" -->
+                        <TextField fx:id="searchBar" promptText="Id del producto"/>
+                        <Button text="Buscar" onAction="#searchProduct"/>
+
+                    </HBox>
+                    
+                    <HBox spacing="8" alignment="CENTER" style="-fx-padding:8;">
+
+                        <Label text="Categorias"/>
+                        <ComboBox fx:id="searchOptionCat" prefWidth="150">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Pisos y paredes"/>
+                                    <String fx:value="Baño"/>
+                                    <String fx:value="Cocina"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+
+                    </HBox>
+
+                    <GridPane styleClass="grid-distribution" prefWidth="400">
+                        
+                        <Label text="Producto" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <Label text="Id" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <TextField fx:id="infProdId" GridPane.columnIndex="1" GridPane.rowIndex="1" editable="false"/>
+                        <Label text="Nombre" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <TextField fx:id="infProdName" GridPane.columnIndex="1" GridPane.rowIndex="2" editable="false"/>
+                        <Label text="Categoria" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                        <TextField fx:id="infProdCat" GridPane.columnIndex="1" GridPane.rowIndex="3" editable="false"/>
+                        <Label text="Precio" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                        <TextField fx:id="infProdPrice" GridPane.columnIndex="1" GridPane.rowIndex="4" editable="false"/>
+                        <Label text="Descuento" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                        <TextField fx:id="inProdDiscount" text="0" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                        <Label text="Cantidad" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                        <TextField fx:id="inProdQuantity" text="1" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                        <Button fx:id="productMode" text="Agregar" onAction="#productManagement"/>
+                    </GridPane>
+
+                </VBox>
+
+                <TableView fx:id="selectedProductTb" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                        <columns>
+                            <TableColumn fx:id="" text="Id producto"/>
+                            <TableColumn fx:id="custNameCol" text="Nombre"/>
+                            <TableColumn fx:id="custCardCol" text="Categoria"/>
+                            <TableColumn fx:id="custPhoneCol" text="Cantidad"/>
+                            <TableColumn fx:id="custPhoneCol" text="Precio"/>
+                        </columns>
+                </TableView>
+
+            </HBox>
+
+        </VBox>
+    
+</VBox>

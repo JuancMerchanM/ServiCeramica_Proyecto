@@ -18,13 +18,18 @@ public class App extends Application {
         
         scene.getStylesheets().add(App.class.getResource("../UI/InitialWindowCSS.css").toExternalForm());
         stage.setScene(scene);
-        stage.setTitle("inicio");
+        stage.setTitle("Inicio");
         stage.setMaximized(true);
         stage.show();
     }
 
     public static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
+        try {
+            scene.setRoot(loadFXML(fxml));    
+        } catch (Exception e) {
+            System.out.println(e.getMessage()+"\n"+e.getCause());
+        }
+        
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
