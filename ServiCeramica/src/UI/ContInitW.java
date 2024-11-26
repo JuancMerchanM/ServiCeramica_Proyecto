@@ -1,7 +1,6 @@
 package UI;
 
-import Logic.UserManager;
-import Run.App;
+import Persistence.UserManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
@@ -43,7 +42,7 @@ public class ContInitW {
         String userName = UserManager.loadUserName();
         String password = UserManager.loadPassword();
         if (userName.equals(tfUserName.getText()) && password.equals(tfPassword.getText())) {
-            App.setRoot("../UI/RecordWindow");
+            ViewManager.changeRecord();
             if (checkRemind.isSelected()) {
                 UserManager.saveStateRemind(true);
             }else{

@@ -6,11 +6,13 @@ public class Customer implements Serializable{
     private String name;
     private String idCard;
     private String phone;
+    private String address;
 
-    public Customer(String name, String idCard, String phone) {
+    public Customer(String name, String idCard, String phone, String address) {
         this.name = name;
         this.idCard = idCard;
         this.phone = phone;
+        this.address = address;
     }
 
     public String getName() {
@@ -37,5 +39,12 @@ public class Customer implements Serializable{
         this.phone = phone;
     }
     
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
     
 }

@@ -1,4 +1,4 @@
-package Logic;
+package Persistence;
 
 import java.lang.reflect.Type;
 import java.time.LocalDate;

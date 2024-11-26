@@ -1,25 +1,74 @@
 package UI;
 
+import java.io.IOException;
+
+import Persistence.DBApp;
+import Run.App;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class ViewManager {
-    private Stage stage;
-    public ViewManager(){
-        this.stage = new Stage();
-        this.stage.setMaximized(true);
+    private static Scene scene;
+    private static String pathInitalW = "/UI/InitialWindow.fxml";
+    private static String pathSaleW = "/UI/SaleRecordW.fxml";
+    private static String pathRecordW = "/UI/RecordWindow.fxml";
+    private static String pathStyle = "/UI/InitialWindowCSS.css";
+    private static Stage stage;
+
+    public static void initApp(Stage stage) throws IOException{
+        scene = new Scene(loadFXML(pathInitalW));
+        scene.getStylesheets().add(App.class.getResource(pathStyle).toExternalForm());
+        stage.setTitle("Inicio");
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        ViewManager.stage = stage;
+        executeLoadSaveData();
+        ViewManager.stage.show();
     }
 
-    public void showWindow(String fxmlFilePath, String title, String stylePath) throws Exception {
-        FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlFilePath));
-        Parent root = loader.load();
-        stage.setTitle(title);
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(ViewManager.class.getResource(stylePath).toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+    public static void backLogin(){
+        setRoot(pathInitalW);
     }
+
+    public static void changeSaleW(){
+        setRoot(pathSaleW);
+    }
+
+    public static void changeRecord(){
+        setRoot(pathRecordW);
+    }
+
+    private static void setRoot(String fxml){
+        try {
+            scene.setRoot(loadFXML(fxml));    
+        } catch (Exception e) {
+            System.out.println(e.getMessage()+"\n"+e.getCause());
+        }
+        
+    }
+
+    private static Parent loadFXML(String fxml) throws IOException {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml));
+            return fxmlLoader.load();
+        } catch (Exception e) {
+            System.err.println("Error al cargar la ruta: "+fxml);
+        }
+        return null;
+    }
+
+    private static void executeLoadSaveData(){
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent arg0) {
+                DBApp.saveDataApp();
+            }
+        });
+    }
+
 
 }

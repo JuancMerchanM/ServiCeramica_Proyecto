@@ -2,13 +2,11 @@ package UI;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.List;
 
 import Logic.DatePickerAdapter;
-import Logic.FileJsonPersistence;
+import Logic.SaleManage;
 import Logic.SaleTable;
 import Model.SaleRecord;
-import Run.App;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -73,20 +71,13 @@ public class ContRecordW {
         saleAmountCol.setCellValueFactory(new PropertyValueFactory<>("saleAmount"));
         saleDateCol.setCellValueFactory(new PropertyValueFactory<>("saleDate"));
 
-        // tableViewSales.widthProperty().addListener((obs, oldWidth, newWidth) -> {
-        //     double newColumnWidth = newWidth.doubleValue() / 6; // Dividir el ancho en partes iguales
-        //     tableViewSales.getColumns().forEach(column -> column.setPrefWidth(newColumnWidth));
-        // });
-
         tableViewSales.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
 
-        FileJsonPersistence<SaleRecord> salesRecord = new FileJsonPersistence<SaleRecord>("resources/salesRecord.json");
-        List<SaleRecord> salesRecordList = salesRecord.getObjects(SaleRecord.class);
-        ObservableList<SaleRecord> customerSales = FXCollections.observableArrayList(
-                salesRecordList);
-        tableViewSales.setItems(customerSales);
-
+        
         manageSaleTable = new SaleTable();
+
+        tableViewSales.setItems(FXCollections.observableArrayList(SaleManage.getSalesTb()));
+
 
         DatePickerAdapter.configureDatePicker(filDateEnd);
         DatePickerAdapter.configureDatePicker(filDateInit);
@@ -106,12 +97,14 @@ public class ContRecordW {
 
     @FXML
     public void backLogin() throws IOException{
-        App.setRoot("../UI/InitialWindow");
+        // App.setRoot("../UI/InitialWindow");
+        ViewManager.backLogin();
     }
 
     @FXML
     public void changeSaleRecord() throws IOException{
-        App.setRoot("../UI/SaleRecordW");
+        // App.setRoot("../UI/SaleRecordW");
+        ViewManager.changeSaleW();
     }
 
     @FXML

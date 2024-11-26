@@ -10,7 +10,7 @@
 
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.ContInitW">
-    <HBox fx:id="header"></HBox>
+    <HBox fx:id="header"/>
     <VBox fx:id="content" alignment="CENTER" styleClass="login-container">
         <VBox styleClass="custom-vbox" style="-fx-spacing:12">
             <Label fx:id="lbTitle" text="ServiCeramica" style="-fx-text-fill: rgb(114, 0, 0); -fx-font-size: 22px;"/>

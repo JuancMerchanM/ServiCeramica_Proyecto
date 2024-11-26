@@ -58,5 +58,11 @@
       "name": "Encimera de Granito Negro",
       "category": "cocina",
       "price": 250.00
+    },
+    {
+      "id": "P011",
+      "name": "Encimera de Granito Blanco",
+      "category": "cocina",
+      "price": 250.00
     }
 ]

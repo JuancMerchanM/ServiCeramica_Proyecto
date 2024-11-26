@@ -20,7 +20,10 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.ContRecordW">
     <children>
-        <HBox fx:id="header" prefHeight="130" minHeight="130"/>
+        <HBox>
+            <HBox fx:id="logoServiceramica" minHeight="130" HBox.hgrow="ALWAYS"/>
+            <HBox fx:id="logoSesion" minHeight="130"/>
+        </HBox>
 
         <VBox fx:id="content" alignment="CENTER" VBox.vgrow="ALWAYS">
 
@@ -117,12 +120,8 @@
                             </HBox>
                         </VBox>
                     </VBox>
-
-                    <VBox GridPane.columnIndex="0" GridPane.rowIndex="2" alignment="CENTER" style="-fx-spacing:7;">
-                        <VBox fx:id="reports" VBox.vgrow="ALWAYS" styleClass="box-content">
-                            <Label text="reportes"/>
-                        </VBox>
-                        <Button text="Cerrar sesion" onAction="#backLogin"/>
+                    <VBox fx:id="reports" VBox.vgrow="ALWAYS" styleClass="box-content" GridPane.columnIndex="0" GridPane.rowIndex="2" alignment="CENTER" style="-fx-spacing:7;">
+                        <Label text="reportes"/>
                     </VBox>
 
                 </children>

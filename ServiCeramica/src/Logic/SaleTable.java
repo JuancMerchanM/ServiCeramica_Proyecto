@@ -1,7 +1,6 @@
 package Logic;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.function.Predicate;
 
 import Model.SaleRecord;
@@ -9,30 +8,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class SaleTable {
-    private List<SaleRecord> saleRecordsList; 
-    private ObservableList<SaleRecord> salesRecordTb;
-    private String PATH = "resources/salesRecord.json";
-
-    public SaleTable() {
-        loadSalesRecordList();
-    }
+    private static ObservableList<SaleRecord> salesRecordTb;
 
     private void loadSalesRecordList() {
-        FileJsonPersistence<SaleRecord> salesRecord = new FileJsonPersistence<>(PATH);
-        saleRecordsList = salesRecord.getObjects(SaleRecord.class);
-        this.salesRecordTb = FXCollections.observableArrayList(saleRecordsList);
+        SaleTable.salesRecordTb = FXCollections.observableArrayList(SaleManage.getSalesTb());
     }
 
     public ObservableList<SaleRecord> getSalesRecordList() {
-        if (saleRecordsList == null) {
+        if (salesRecordTb == null) {
             loadSalesRecordList();
         }
         return salesRecordTb;
     }
 
     public void reloadSalesRecordList() {
-        if (saleRecordsList!=null) {
-            this.salesRecordTb = FXCollections.observableArrayList(saleRecordsList);            
+        if (salesRecordTb!=null) {
+            SaleTable.salesRecordTb = FXCollections.observableArrayList(SaleManage.getSalesTb());            
         }else{
             loadSalesRecordList();
         }
@@ -64,6 +55,6 @@ public class SaleTable {
     }
 
     public void setSalesRecordList(ObservableList<SaleRecord> salesRecordTb){
-        this.salesRecordTb = salesRecordTb;
+        SaleTable.salesRecordTb = salesRecordTb;
     }
 }

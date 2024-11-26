@@ -17,7 +17,10 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.ContSaleRecord">
     
-        <HBox fx:id="header" prefHeight="130" minHeight="130"/>
+        <HBox>
+            <HBox fx:id="logoServiceramica" minHeight="130" HBox.hgrow="ALWAYS"/>
+            <HBox fx:id="logoSesion" minHeight="130"/>
+        </HBox>
 
         <VBox fx:id="content" alignment="CENTER" VBox.vgrow="ALWAYS">
 
@@ -43,13 +46,13 @@
 
                     <Label text="Datos del cliente" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
                     <Label text="Cedula" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                    <TextField fx:id="custCardTF" promptText="Ejemplo: 1057978632" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <TextField fx:id="custCardIn" promptText="Ejemplo: 1057978632" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
                     <Label text="Nombre" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-                    <TextField fx:id="custNameTF" promptText="Nombre del cliente aqui" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                    <TextField fx:id="custNameIn" promptText="Nombre del cliente aqui" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
                     <Label text="Telefono" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
-                    <TextField fx:id="custPhoneTF" promptText="Ejemplo: 3114561234" GridPane.columnIndex="5" GridPane.rowIndex="1"/>
+                    <TextField fx:id="custPhoneIn" promptText="Ejemplo: 3114561234" GridPane.columnIndex="5" GridPane.rowIndex="1"/>
                     <Label text="Direccion" GridPane.columnIndex="6" GridPane.rowIndex="1"/>
-                    <TextField fx:id="custAddressTF" promptText="Ejemplo: Cll 8F #45" GridPane.columnIndex="7" GridPane.rowIndex="1"/>
+                    <TextField fx:id="custAddressIn" promptText="Ejemplo: Cll 8F #45" GridPane.columnIndex="7" GridPane.rowIndex="1"/>
 
                 </GridPane>
 
@@ -64,9 +67,9 @@
 
                     <Label text="Fecha venta" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
                     <Label text="Fecha venta" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                    <TextField text="Example" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <TextField fx:id="saleDateInf" GridPane.columnIndex="1" GridPane.rowIndex="1" editable="false"/>
                     <Label text="Hora venta" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-                    <TextField text="Example" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                    <TextField fx:id="saleTimeInf" GridPane.columnIndex="3" GridPane.rowIndex="1" editable="false"/>
                 </GridPane>
 
             </HBox>
@@ -115,36 +118,77 @@
 
                     </HBox>
 
-                    <GridPane styleClass="grid-distribution" prefWidth="400">
-                        
-                        <Label text="Producto" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                        <Label text="Id" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                        <TextField fx:id="infProdId" GridPane.columnIndex="1" GridPane.rowIndex="1" editable="false"/>
-                        <Label text="Nombre" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                        <TextField fx:id="infProdName" GridPane.columnIndex="1" GridPane.rowIndex="2" editable="false"/>
-                        <Label text="Categoria" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                        <TextField fx:id="infProdCat" GridPane.columnIndex="1" GridPane.rowIndex="3" editable="false"/>
-                        <Label text="Precio" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-                        <TextField fx:id="infProdPrice" GridPane.columnIndex="1" GridPane.rowIndex="4" editable="false"/>
-                        <Label text="Descuento" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-                        <TextField fx:id="inProdDiscount" text="0" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-                        <Label text="Cantidad" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
-                        <TextField fx:id="inProdQuantity" text="1" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-                        <Button fx:id="productMode" text="Agregar" onAction="#productManagement"/>
+                    <GridPane styleClass="grid-distribution" prefWidth="400" alignment="CENTER">
+
+                            <Label text="Producto" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                            <Label text="Id" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                            <TextField fx:id="infProdId" GridPane.columnIndex="1" GridPane.rowIndex="1" editable="false"/>
+                            <Label text="Nombre" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                            <TextField fx:id="infProdName" GridPane.columnIndex="1" GridPane.rowIndex="2" editable="false"/>
+                            <Label text="Categoria" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                            <TextField fx:id="infProdCat" GridPane.columnIndex="1" GridPane.rowIndex="3" editable="false"/>
+                            <Label text="Precio" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                            <TextField fx:id="infProdPrice" GridPane.columnIndex="1" GridPane.rowIndex="4" editable="false"/>
+                            <Label text="Descuento" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                            <TextField fx:id="inProdDiscount" text="" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                            <Label text="Cantidad" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                            <TextField fx:id="inProdQuantity" text="" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                            <HBox GridPane.columnIndex="0" GridPane.rowIndex="7" GridPane.columnSpan="2" alignment="CENTER">
+                                <Button fx:id="productMode" text="Agregar" onAction="#productManagement"/>
+                                <Button fx:id="editOrderProduct" text="Editar" onAction="#editProduct" visible="false" managed="false"/>
+                            </HBox>
+
                     </GridPane>
 
                 </VBox>
 
                 <TableView fx:id="selectedProductTb" HBox.hgrow="ALWAYS" maxWidth="Infinity">
                         <columns>
-                            <TableColumn fx:id="" text="Id producto"/>
-                            <TableColumn fx:id="custNameCol" text="Nombre"/>
-                            <TableColumn fx:id="custCardCol" text="Categoria"/>
-                            <TableColumn fx:id="custPhoneCol" text="Cantidad"/>
-                            <TableColumn fx:id="custPhoneCol" text="Precio"/>
+                            <TableColumn fx:id="saleProdId" text="Id producto"/>
+                            <TableColumn fx:id="saleProdName" text="Nombre"/>
+                            <TableColumn fx:id="saleProdCat" text="Categoria"/>
+                            <TableColumn fx:id="saleProdQuan" text="Cantidad"/>
+                            <TableColumn fx:id="saleProdPrice" text="Precio"/>
                         </columns>
                 </TableView>
 
+            </HBox>
+
+            <HBox  style="-fx-padding:14; -fx-spacing:12" styleClass="box-content" alignment="CENTER">
+
+                <Label text="Metodo de pago"/>
+                <ComboBox fx:id="opPaymenMethod" prefWidth="150" value="Efectivo">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Efectivo"/>
+                            <String fx:value="Transferencia"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+                <Label text="Valor a pagar"/>
+                <TextField fx:id="saleValue"/>
+
+                <HBox fx:id="boxCashPayment">
+                    <Label text="Monto recibido"/>
+                    <TextField fx:id="amountReceivedIn"/>
+                </HBox>
+                
+                <HBox fx:id="boxTransferPayment" visible="false" managed="false">
+                    <Label text="Plataforma"/>
+                    <ComboBox fx:id="opTransferMethod" prefWidth="150" value="Nequi">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="Nequi"/>
+                                <String fx:value="Daviplata"/>
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                    <Label text="Numero del remitente"/>
+                    <TextField fx:id="senderNumberIn"/>
+                </HBox>
+                
+                <Button text="Registrar venta" onAction="#registerSale"/>
+                <Button text="Limpiar datos" onAction="#cleanFields"/>
             </HBox>
 
         </VBox>

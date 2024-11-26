@@ -1,4 +1,4 @@
-package Logic;
+package Persistence;
 
 import java.io.File;
 import java.io.FileReader;
@@ -25,11 +25,9 @@ public class FileJsonPersistence<T> {
         this.gson = gsonBuilder.setPrettyPrinting().create();
     }
 
-    public void writeObject(T object, Class<T> clazz) {
-        List<T> listObjects = getObjects(clazz);
-        listObjects.add(object);
+    public void writeObject(List<T> objects, Class<T> clazz) {
         try (FileWriter fw = new FileWriter(filePath)) {
-            gson.toJson(listObjects, fw);
+            gson.toJson(objects, fw);
         } catch (IOException e) {
             System.err.println("Error al escribir en el archivo JSON: " + e.getMessage());
         }
@@ -38,6 +36,9 @@ public class FileJsonPersistence<T> {
     public List<T> getObjects(Class<T> clazz) {
         Type listType = TypeToken.getParameterized(List.class, clazz).getType();
         File file = new File(filePath);
+        if (!file.exists()) {
+            return new ArrayList<>();
+        }
         try (FileReader fr = new FileReader(file)) {
             List<T> deserializeObjects = gson.fromJson(fr, listType);
             return deserializeObjects != null ? deserializeObjects : new ArrayList<T>(); // Retorna una lista vacía si es null

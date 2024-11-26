@@ -1,16 +1,28 @@
 package Model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
-public class Sale {
+public class Sale implements Serializable{
     private String saleId;
-    private Customer customer; 
+    private Customer customer;
     private LocalDate saleDate;
-    private LocalTime saleTime;
+    private String saleTime;
     private double totalAmount;
     private List<ProductOrder> products;
+
+    public Sale(String saleId, Customer customer, LocalDate saleDate, String saleTime, double totalAmount,
+            List<ProductOrder> products) {
+        this.saleId = saleId;
+        this.customer = customer;
+        this.saleDate = saleDate;
+        this.saleTime = saleTime;
+        this.totalAmount = totalAmount;
+        this.products = products;
+    }
+
+
 
     public String getSaleId() {
         return saleId;
@@ -30,10 +42,10 @@ public class Sale {
     public void setSaleDate(LocalDate saleDate) {
         this.saleDate = saleDate;
     }
-    public LocalTime getSaleTime() {
+    public String getSaleTime() {
         return saleTime;
     }
-    public void setSaleTime(LocalTime saleTime) {
+    public void setSaleTime(String saleTime) {
         this.saleTime = saleTime;
     }
     public double getTotalAmount() {

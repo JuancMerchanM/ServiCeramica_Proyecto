@@ -1,145 +1,386 @@
 package UI;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import Logic.FileJsonPersistence;
 import Logic.ProductOrderTable;
 import Logic.ProductTable;
+import Logic.SaleManage;
+import Model.Customer;
 import Model.Product;
 import Model.ProductOrder;
-import Model.SaleRecord;
-import Run.App;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
+import Model.Sale;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.util.Duration;
 
 public class ContSaleRecord {
-    @FXML private Button registros;
-    @FXML private Button registrarVenta;
-
-    @FXML private TextField searchBar;
-    @FXML private ComboBox<String> searchOption;
-
-    @FXML private ComboBox<String> searchOptionCat;
-
-    @FXML private TableView<Product> productTb;
-    @FXML private TableColumn<Product,String> prodId; 
-    @FXML private TableColumn<Product,String> prodName; 
-    @FXML private TableColumn<Product,String> prodCategory; 
-    @FXML private TableColumn<Product,String> prodPrice; 
-
-    @FXML private TextField infProdId;
-    @FXML private TextField infProdName;
-    @FXML private TextField infProdCat;
-    @FXML private TextField infProdPrice;
-    @FXML private TextField inProdDiscount;
-    @FXML private TextField inProdQuantity;
-    @FXML private Button productMode;
-
-    @FXML private TableView<ProductOrder> selectedProductTb;
-
-    private ProductTable manageProductTable;
-    private ProductOrderTable prodOrderTable;
+    @FXML
+    private Button registros;
+    @FXML
+    private Button registrarVenta;
 
     @FXML
-    public void initialize(){
+    private TextField searchBar;
+    @FXML
+    private ComboBox<String> searchOption;
+
+    @FXML
+    private ComboBox<String> searchOptionCat;
+
+    @FXML
+    private TextField custCardIn;
+    @FXML
+    private TextField custNameIn;
+    @FXML
+    private TextField custPhoneIn;
+    @FXML
+    private TextField custAddressIn;
+
+    @FXML
+    private TableView<Product> productTb;
+    @FXML
+    private TableColumn<Product, String> prodId;
+    @FXML
+    private TableColumn<Product, String> prodName;
+    @FXML
+    private TableColumn<Product, String> prodCategory;
+    @FXML
+    private TableColumn<Product, String> prodPrice;
+
+    @FXML
+    private TextField saleDateInf;
+    @FXML
+    private TextField saleTimeInf;
+    @FXML
+    private TextField infProdId;
+    @FXML
+    private TextField infProdName;
+    @FXML
+    private TextField infProdCat;
+    @FXML
+    private TextField infProdPrice;
+    @FXML
+    private TextField inProdDiscount;
+    @FXML
+    private TextField inProdQuantity;
+    @FXML
+    private Button productMode;
+    @FXML
+    private Button editOrderProduct;
+
+    @FXML
+    private TableView<ProductOrder> selectedProductTb;
+    @FXML
+    private TableColumn<ProductOrder, String> saleProdId;
+    @FXML
+    private TableColumn<ProductOrder, String> saleProdName;
+    @FXML
+    private TableColumn<ProductOrder, String> saleProdCat;
+    @FXML
+    private TableColumn<ProductOrder, String> saleProdQuan;
+    @FXML
+    private TableColumn<ProductOrder, String> saleProdPrice;
+    @FXML
+    private ComboBox<String> opPaymenMethod;
+
+    @FXML
+    private TextField saleValue;
+    @FXML
+    private TextField amountReceivedIn;
+    @FXML
+    private HBox boxTransferPayment;
+    @FXML
+    private HBox boxCashPayment;
+    @FXML
+    private ComboBox<String> opTransferMethod;
+    @FXML
+    private TextField senderNumberIn;
+
+    @FXML
+    public void initialize() {
+        configureButtons();
+        configureTables();
+        setupListeners();
+        setupVisibilityBindings();
+        setupDateTime();
+    }
+
+    private void configureButtons() {
         registrarVenta.setMaxWidth(Double.MAX_VALUE);
         registros.setMaxWidth(Double.MAX_VALUE);
+    }
 
+    private void configureTables() {
+        // Configuración de políticas de redimensionamiento
         productTb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
         selectedProductTb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
 
+        // Configuración de columnas para productTb
         prodId.setCellValueFactory(new PropertyValueFactory<>("id"));
         prodName.setCellValueFactory(new PropertyValueFactory<>("name"));
         prodCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
         prodPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        
-        manageProductTable = new ProductTable();
-        productTb.setItems(manageProductTable.getProductListTb());
+        // Asignar datos a la tabla
+        productTb.setItems(ProductTable.getProductListTb());
 
-        productTb.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Product>() {
+        // Configuración de columnas para selectedProductTb
+        saleProdId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        saleProdName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        saleProdCat.setCellValueFactory(new PropertyValueFactory<>("category"));
+        saleProdPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        saleProdQuan.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+    }
 
-            @Override
-            public void changed(ObservableValue<? extends Product> observableValue, Product oldValue, Product newValue) {
-                if (newValue != null) {
-                    showProduct(newValue);
-                }
+    private void setupListeners() {
+        // Listener para la selección en productTb
+        productTb.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (newValue != null) {
+                showProduct(newValue);
             }
         });
 
+        // Listener para la selección en selectedProductTb
+        selectedProductTb.getSelectionModel().selectedItemProperty()
+                .addListener((observableValue, oldValue, newValue) -> {
+                    if (newValue != null) {
+                        showProductOrder(newValue);
+                    }
+                });
+
+        // Listener para el filtro de categorías
         searchOptionCat.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 filterCategory(newValue);
             }
         });
+    }
 
+    private void setupVisibilityBindings() {
+        // Listener para el método de pago
+        opPaymenMethod.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if ("Efectivo".equals(newValue)) {
+                setVisibleNode(boxCashPayment, true);
+                setVisibleNode(boxTransferPayment, false);
+            } else {
+                setVisibleNode(boxCashPayment, false);
+                setVisibleNode(boxTransferPayment, true);
+            }
+        });
+    }
+
+    private void setupDateTime(){
+        saleDateInf.setText(LocalDate.now().toString());
+        configureTimeField(saleTimeInf);
+    }
+
+    private void configureTimeField(TextField field){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        Runnable updateTime = () -> field.setText(LocalTime.now().format(formatter));
+        updateTime.run();
+        Timeline timeline = new Timeline(
+            new KeyFrame(Duration.seconds(60), e -> updateTime.run())
+        );
+        timeline.setCycleCount(Timeline.INDEFINITE); // Repetir indefinidamente
+        timeline.play();
+    }
+
+    private void setVisibleNode(Node node, boolean visible) {
+        node.setVisible(visible);
+        node.setManaged(visible);
     }
 
     @FXML
-    public void changeRecord() throws IOException{
-        App.setRoot("..UI/RecordWindow");
+    public void registerSale() {
+        Sale newSale = createSaleFromInputs();
+        SaleManage.createSale(newSale);
+        cleanFields();
+    }
+
+    private Sale createSaleFromInputs() {
+        String custCard = custCardIn.getText();
+        String custName = custNameIn.getText();
+        String custPhone = custPhoneIn.getText();
+        String custAddress = custAddressIn.getText();
+        double totalAmount = ProductOrderTable.getTotalAmount();
+        List<ProductOrder> listProductOrder = ProductOrderTable.getList();
+        LocalDate saleDate = LocalDate.parse(saleDateInf.getText());
+        String saleTime = saleTimeInf.getText();
+
+        return new Sale(
+            saleTime, 
+            new Customer(custName, custCard, custPhone, custAddress), 
+            saleDate, 
+            saleTime, 
+            totalAmount, 
+            listProductOrder);
     }
 
     @FXML
-    public void searchProduct(){
-        manageProductTable.reloadProductListTb();
+    public void cleanFields() {
+        cleanFieldsProduct();
+        cleanFieldsCust();
+    }
+
+    @FXML
+    public void changeRecord() throws IOException {
+        ViewManager.changeRecord();
+    }
+
+    @FXML
+    public void searchProduct() {
+        if (searchBar.getText().isEmpty())
+            return; // Salir si no hay texto en el buscador
+
+        ProductTable.reloadProductListTb();
         String choiceSearch = searchOption.getValue();
         String textSearch = searchBar.getText();
-        ObservableList<Product> productListTb;
-        if (textSearch.isEmpty()) {
-            return;
-        }
 
-        if (choiceSearch.equals("Id producto")) {
-            productListTb = manageProductTable.searchProductId(textSearch);
-        }else if (choiceSearch.equals("Nombre")) {
-            productListTb = manageProductTable.searchProductName(textSearch);
-        }else{
-            productListTb = manageProductTable.getProductListTb();
-        }
+        ObservableList<Product> productListTb = switch (choiceSearch) {
+            case "Id producto" -> ProductTable.searchProductId(textSearch);
+            case "Nombre" -> ProductTable.searchProductName(textSearch);
+            default -> ProductTable.getProductListTb();
+        };
 
         productTb.setItems(productListTb);
-
     }
 
     @FXML
-    public void productManagement(){
+    public void productManagement() {
         String mode = productMode.getText();
+
         if (mode.equals("Agregar")) {
-            Product selectedProduct = productTb.getSelectionModel().getSelectedItem();
-            Double discount = Double.parseDouble(inProdDiscount.getText());
-            int quantity = Integer.parseInt(inProdQuantity.getText());
-            prodOrderTable.addProduct(new ProductOrder(selectedProduct, quantity, discount));
-        }else{
-            
+            addSelectedProductToOrder();
+        } else {
+            removeSelectedProductFromOrder();
         }
     }
 
-    public void filterCategory(String choiceCategory){
-        manageProductTable.reloadProductListTb();
-        
-        productTb.setItems(
-            manageProductTable.filterCategory(choiceCategory)
-        );
+    @FXML
+    public void editProduct(){
+        ProductOrder productEditing = selectedProductTb.getSelectionModel().getSelectedItem();
+        int newQuantity = parseIntSafe(inProdQuantity.getText());
+        double newDiscount = parseDoubleSafe(inProdDiscount.getText());
+        ProductOrderTable.editProduct(productEditing, newQuantity, newDiscount);
+        selectedProductTb.refresh();
     }
 
-    public void showProduct(Product product){
+    private void addSelectedProductToOrder() {
+        Product selectedProduct = productTb.getSelectionModel().getSelectedItem();
+        if (selectedProduct == null)
+            return; // Salir si no hay un producto seleccionado
+
+        Double discount = parseDoubleSafe(inProdDiscount.getText());
+        int quantity = parseIntSafe(inProdQuantity.getText());
+        ProductOrderTable.addProduct(new ProductOrder(selectedProduct, quantity, discount));
+        updateSelectedProductTable();
+    }
+
+    private void removeSelectedProductFromOrder() {
+        ProductOrder selectedProductOrder = selectedProductTb.getSelectionModel().getSelectedItem();
+        if (selectedProductOrder == null)
+            return; // Salir si no hay un pedido seleccionado
+
+        ProductOrderTable.removeProduct(selectedProductOrder.getId());
+        cleanFieldsProduct();
+    }
+
+    private void updateSelectedProductTable() {
+        selectedProductTb.setItems(ProductOrderTable.getListTable());
+    }
+
+    private Double parseDoubleSafe(String text) {
+        try {
+            return Double.parseDouble(text);
+        } catch (NumberFormatException e) {
+            return 0.0; // Valor predeterminado si hay un error
+        }
+    }
+
+    private int parseIntSafe(String text) {
+        try {
+            return Integer.parseInt(text);
+        } catch (NumberFormatException e) {
+            return 1; // Valor predeterminado si hay un error
+        }
+    }
+
+    public void filterCategory(String choiceCategory) {
+        ProductTable.reloadProductListTb();
+        productTb.setItems(ProductTable.filterCategory(choiceCategory));
+    }
+
+    public void showProduct(Product product) {
+        if (product == null)
+            return; // Salir si no hay un producto
+
         infProdId.setText(product.getId());
         infProdName.setText(product.getName());
         infProdCat.setText(product.getCategory());
         infProdPrice.setText(product.getPrice().toString());
+        resetProductInputFields();
+        setVisibleNode(editOrderProduct, false);
+    }
+
+    private void resetProductInputFields() {
+        inProdDiscount.setText("0");
+        inProdQuantity.setText("1");
         productMode.setText("Agregar");
+    }
+
+    public void showProductOrder(ProductOrder productOrder) {
+        if (productOrder == null) return; // Verifica que no sea nulo para evitar errores
+    
+        setTextField(infProdId, productOrder.getId());
+        setTextField(infProdName, productOrder.getName());
+        setTextField(infProdCat, productOrder.getCategory());
+        setTextField(infProdPrice, productOrder.getPrice().toString());
+        setTextField(inProdDiscount, String.valueOf(productOrder.getDiscount()));
+        setTextField(inProdQuantity, String.valueOf(productOrder.getQuantity())); // Corrección: se usa quantity, no price
+        productMode.setText("Remover");
+        setVisibleNode(editOrderProduct, true);
+    }
+    
+    private void setTextField(TextField field, String value) {
+        if (value != null) {
+            field.setText(value);
+        } else {
+            field.clear(); // Limpia si el valor es nulo
+        }
+    }
+
+    public void cleanFieldsProduct() {
+        clearTextFields(infProdId, infProdName, infProdCat, infProdPrice, inProdDiscount, inProdQuantity);
+    }
+
+    public void cleanFieldsCust() {
+        clearTextFields(custNameIn, custCardIn, custAddressIn, custPhoneIn);
+    }
+    
+    private void clearTextFields(TextField... fields) {
+        for (TextField field : fields) {
+            if (field != null) {
+                field.clear();
+            }
+        }
+    }
+
+    @FXML
+    public void backLogin() throws IOException {
+        ViewManager.backLogin();
     }
 }

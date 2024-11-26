@@ -3,14 +3,22 @@
     -fx-font-size: 12px;
 }
 
-#header{
-    -fx-background-color: rgb(114, 0, 0);
+#logoServiceramica, #header{
     -fx-background-image: url("LogoServiCeramica.jpg");
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
     -fx-background-size: 800px 170px;
-    -fx-pref-width:340;
+    -fx-background-color: rgb(114,0,0);
     -fx-pref-height:130;
+}
+#logoSesion{
+    -fx-background-image: url("LogoSesion.png");
+    -fx-background-color: rgb(114,0,0);
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 120px 70px;
+    -fx-pref-height:130px;
+    -fx-pref-width: 180px;
 }
 
 .login-container {
