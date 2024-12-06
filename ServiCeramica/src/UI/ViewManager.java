@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -40,6 +41,10 @@ public class ViewManager {
 
     public static void changeRecord(){
         setRoot(pathRecordW);
+    }
+
+    public static void showPopup(Popup popup){
+        popup.show(stage);
     }
 
     private static void setRoot(String fxml){

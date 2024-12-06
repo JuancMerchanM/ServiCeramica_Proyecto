@@ -13,6 +13,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import Logic.PaymentAdapter;
+import Model.Payment;
+
 
 public class FileJsonPersistence<T> {
     private Gson gson;
@@ -22,6 +25,7 @@ public class FileJsonPersistence<T> {
         this.filePath = path;
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(LocalDate.class,new LocalDateAdapter());
+        gsonBuilder.registerTypeAdapter(Payment.class, new PaymentAdapter());
         this.gson = gsonBuilder.setPrettyPrinting().create();
     }
 
@@ -41,10 +45,10 @@ public class FileJsonPersistence<T> {
         }
         try (FileReader fr = new FileReader(file)) {
             List<T> deserializeObjects = gson.fromJson(fr, listType);
-            return deserializeObjects != null ? deserializeObjects : new ArrayList<T>(); // Retorna una lista vacía si es null
+            return deserializeObjects != null ? deserializeObjects : new ArrayList<T>();
         } catch (IOException e) {
             System.err.println("Error al leer el archivo JSON: ");
-            return new ArrayList<T>(); // Retorna una lista vacía en caso de error
+            return new ArrayList<T>();
         }
     }
 }

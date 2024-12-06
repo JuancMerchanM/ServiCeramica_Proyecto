@@ -9,10 +9,13 @@ import java.util.List;
 import Logic.ProductOrderTable;
 import Logic.ProductTable;
 import Logic.SaleManage;
+import Model.CashPayment;
 import Model.Customer;
+import Model.Payment;
 import Model.Product;
 import Model.ProductOrder;
 import Model.Sale;
+import Model.TransferPayment;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
@@ -148,7 +151,7 @@ public class ContSaleRecord {
 
     private void setupListeners() {
         // Listener para la selección en productTb
-        productTb.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+        productTb.getSelectionModel().selectedItemProperty().addListener((_, _, newValue) -> {
             if (newValue != null) {
                 showProduct(newValue);
             }
@@ -156,14 +159,14 @@ public class ContSaleRecord {
 
         // Listener para la selección en selectedProductTb
         selectedProductTb.getSelectionModel().selectedItemProperty()
-                .addListener((observableValue, oldValue, newValue) -> {
+                .addListener((_, _, newValue) -> {
                     if (newValue != null) {
                         showProductOrder(newValue);
                     }
                 });
 
         // Listener para el filtro de categorías
-        searchOptionCat.valueProperty().addListener((observable, oldValue, newValue) -> {
+        searchOptionCat.valueProperty().addListener((_, _, newValue) -> {
             if (newValue != null) {
                 filterCategory(newValue);
             }
@@ -172,10 +175,11 @@ public class ContSaleRecord {
 
     private void setupVisibilityBindings() {
         // Listener para el método de pago
-        opPaymenMethod.valueProperty().addListener((observable, oldValue, newValue) -> {
+        opPaymenMethod.valueProperty().addListener((_, _, newValue) -> {
             if ("Efectivo".equals(newValue)) {
                 setVisibleNode(boxCashPayment, true);
                 setVisibleNode(boxTransferPayment, false);
+                senderNumberIn.setText(custPhoneIn.getText());
             } else {
                 setVisibleNode(boxCashPayment, false);
                 setVisibleNode(boxTransferPayment, true);
@@ -193,7 +197,7 @@ public class ContSaleRecord {
         Runnable updateTime = () -> field.setText(LocalTime.now().format(formatter));
         updateTime.run();
         Timeline timeline = new Timeline(
-            new KeyFrame(Duration.seconds(60), e -> updateTime.run())
+            new KeyFrame(Duration.seconds(60), _ -> updateTime.run())
         );
         timeline.setCycleCount(Timeline.INDEFINITE); // Repetir indefinidamente
         timeline.play();
@@ -207,33 +211,76 @@ public class ContSaleRecord {
     @FXML
     public void registerSale() {
         Sale newSale = createSaleFromInputs();
+        if (newSale == null) {
+            return;
+        }
+        double turned = parseDoubleSafe(amountReceivedIn.getText(),"Monto recibido") - ProductOrderTable.getTotalAmount();
+        if (turned<0) {
+            Alerts.failedAmountReceived();
+            return;
+        }
+        Alerts.succesRegisterSale(newSale, turned);
         SaleManage.createSale(newSale);
         cleanFields();
     }
 
     private Sale createSaleFromInputs() {
         String custCard = custCardIn.getText();
+        if (contieneLet_EsVacio(custCard) || custCard.length()<10) {
+            Alerts.errorParsingNumber("Cedula cliente");
+            return null;
+        }
         String custName = custNameIn.getText();
+        if (contieneNum_EsVacio(custName)) {
+            Alerts.errorParsingString("Nombre cliente");
+            return null;
+        }
         String custPhone = custPhoneIn.getText();
+        if (contieneLet_EsVacio(custPhone) || custCard.length()<10) {
+            Alerts.errorParsingNumber("Telefono cliente");
+            return null;
+        }
         String custAddress = custAddressIn.getText();
-        double totalAmount = ProductOrderTable.getTotalAmount();
+        if (custAddress.trim().isEmpty()) {
+            Alerts.errorParsingString("Direccion cliente");
+            return null;
+        }
         List<ProductOrder> listProductOrder = ProductOrderTable.getList();
+        if (listProductOrder.isEmpty()) {
+            Alerts.errorListProducts();
+            return null;
+        }
         LocalDate saleDate = LocalDate.parse(saleDateInf.getText());
         String saleTime = saleTimeInf.getText();
+        Payment payment = getPayment();
 
         return new Sale(
             saleTime, 
             new Customer(custName, custCard, custPhone, custAddress), 
             saleDate, 
             saleTime, 
-            totalAmount, 
+            payment, 
             listProductOrder);
+    }
+
+    private Payment getPayment(){
+        double totalAmount = ProductOrderTable.getTotalAmount();
+        if (opPaymenMethod.getValue().equals("Efectivo")) {
+            double cashReceived =  parseDoubleSafe(amountReceivedIn.getText(), "Monto recibido");
+            return new CashPayment(totalAmount, cashReceived);
+        }else{
+            String senderNumber = senderNumberIn.getText();
+            String platform = opTransferMethod.getValue();
+            return new TransferPayment(totalAmount, senderNumber, platform);
+        }
     }
 
     @FXML
     public void cleanFields() {
         cleanFieldsProduct();
         cleanFieldsCust();
+        selectedProductTb.setItems(null);
+        saleValue.setText("");
     }
 
     @FXML
@@ -243,10 +290,10 @@ public class ContSaleRecord {
 
     @FXML
     public void searchProduct() {
-        if (searchBar.getText().isEmpty())
+        if (searchBar.getText().isEmpty()){
+            ProductTable.reloadProductListTb();
             return; // Salir si no hay texto en el buscador
-
-        ProductTable.reloadProductListTb();
+        }
         String choiceSearch = searchOption.getValue();
         String textSearch = searchBar.getText();
 
@@ -274,8 +321,9 @@ public class ContSaleRecord {
     public void editProduct(){
         ProductOrder productEditing = selectedProductTb.getSelectionModel().getSelectedItem();
         int newQuantity = parseIntSafe(inProdQuantity.getText());
-        double newDiscount = parseDoubleSafe(inProdDiscount.getText());
+        double newDiscount = parseDoubleSafe(inProdDiscount.getText(), "Descuento");
         ProductOrderTable.editProduct(productEditing, newQuantity, newDiscount);
+        updateSaleValue();
         selectedProductTb.refresh();
     }
 
@@ -284,9 +332,10 @@ public class ContSaleRecord {
         if (selectedProduct == null)
             return; // Salir si no hay un producto seleccionado
 
-        Double discount = parseDoubleSafe(inProdDiscount.getText());
+        Double discount = parseDoubleSafe(inProdDiscount.getText(),"Descuento");
         int quantity = parseIntSafe(inProdQuantity.getText());
         ProductOrderTable.addProduct(new ProductOrder(selectedProduct, quantity, discount));
+        updateSaleValue();
         updateSelectedProductTable();
     }
 
@@ -296,6 +345,9 @@ public class ContSaleRecord {
             return; // Salir si no hay un pedido seleccionado
 
         ProductOrderTable.removeProduct(selectedProductOrder.getId());
+        updateSelectedProductTable();
+        selectedProductTb.refresh();
+        updateSaleValue();
         cleanFieldsProduct();
     }
 
@@ -303,10 +355,15 @@ public class ContSaleRecord {
         selectedProductTb.setItems(ProductOrderTable.getListTable());
     }
 
-    private Double parseDoubleSafe(String text) {
+    private void updateSaleValue(){
+        saleValue.setText(String.format("%.2f", ProductOrderTable.getTotalAmount()));
+    }
+
+    private Double parseDoubleSafe(String text, String field) {
         try {
             return Double.parseDouble(text);
         } catch (NumberFormatException e) {
+            Alerts.errorParsingNumber(text);
             return 0.0; // Valor predeterminado si hay un error
         }
     }
@@ -383,4 +440,29 @@ public class ContSaleRecord {
     public void backLogin() throws IOException {
         ViewManager.backLogin();
     }
+
+    private boolean contieneNum_EsVacio(String sstring) {
+		if (sstring.trim().isEmpty()) {
+			return true;
+		}
+		for (char l : sstring.toCharArray()) {
+			if (Character.isDigit(l)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+    private boolean contieneLet_EsVacio(String sstring) {
+		sstring = sstring.replaceAll("\\s", "");
+		if (sstring.trim().isEmpty()) {
+			return true;
+		}
+		for (char l : sstring.toCharArray()) {
+			if (Character.isAlphabetic(l)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

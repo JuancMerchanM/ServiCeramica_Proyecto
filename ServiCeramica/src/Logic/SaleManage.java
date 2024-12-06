@@ -22,6 +22,15 @@ public class SaleManage {
         saleFile.writeObject(saleList, Sale.class);
     }
 
+    public static Sale getSale(String idSale){
+        for (Sale sale : saleList) {
+            if (idSale.equals(sale.getSaleId())) {
+                return sale;
+            }
+        }
+        return null;
+    }
+
     public static List<SaleRecord> getSalesTb() {
         if (saleList.size()==0) {
             return new ArrayList<>();
@@ -34,7 +43,7 @@ public class SaleManage {
                 customer.getName(),
                 customer.getIdCard(),
                 customer.getPhone(),
-                sale.getTotalAmount(),
+                sale.getPayment().getAmount(),
                 sale.getSaleDate()
             );
         }).collect(Collectors.toList());
@@ -44,5 +53,9 @@ public class SaleManage {
         newSale.setSaleId(String.format("%03d", saleList.size()+1));
         saleList.add(newSale);
         return true;
+    }
+
+    public static List<Sale> getList(){
+        return saleList;
     }
 }

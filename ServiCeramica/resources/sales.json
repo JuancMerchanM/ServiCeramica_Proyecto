@@ -1,1 +1,114 @@
-[]
+[
+  {
+    "saleId": "001",
+    "customer": {
+      "name": "Juan",
+      "idCard": "1232",
+      "phone": "312",
+      "address": "Cll"
+    },
+    "saleDate": "2024-12-04",
+    "saleTime": "07:51",
+    "products": [
+      {
+        "quantity": 1,
+        "discount": 0.0,
+        "id": "P006",
+        "name": "Fregadero Doble Acero Inoxidable",
+        "category": "cocina",
+        "price": 180.5
+      },
+      {
+        "quantity": 1,
+        "discount": 0.0,
+        "id": "P002",
+        "name": "Porcelanato Gris Pulido",
+        "category": "pisos y paredes",
+        "price": 45.5
+      }
+    ],
+    "payment": {
+      "senderNumber": "312",
+      "platform": "Nequi",
+      "amount": 226.0,
+      "type": "Transfer"
+    }
+  },
+  {
+    "saleId": "002",
+    "customer": {
+      "name": "Sebastian",
+      "idCard": "32453",
+      "phone": "321664656",
+      "address": "Cll 4"
+    },
+    "saleDate": "2024-12-04",
+    "saleTime": "14:38",
+    "products": [
+      {
+        "quantity": 1,
+        "discount": 0.0,
+        "id": "P006",
+        "name": "Fregadero Doble Acero Inoxidable",
+        "category": "cocina",
+        "price": 180.5
+      },
+      {
+        "quantity": 1,
+        "discount": 0.0,
+        "id": "P003",
+        "name": "Lavamanos Ovalado",
+        "category": "baño",
+        "price": 120.75
+      },
+      {
+        "quantity": 1,
+        "discount": 0.0,
+        "id": "P010",
+        "name": "Encimera de Granito Negro",
+        "category": "cocina",
+        "price": 250.0
+      }
+    ],
+    "payment": {
+      "senderNumber": "321664656",
+      "platform": "Nequi",
+      "amount": 551.25,
+      "type": "Transfer"
+    }
+  },
+  {
+    "saleId": "003",
+    "customer": {
+      "name": "Juan",
+      "idCard": "1313231",
+      "phone": "132132",
+      "address": "Cll 7b"
+    },
+    "saleDate": "2024-12-06",
+    "saleTime": "08:30",
+    "products": [
+      {
+        "quantity": 1,
+        "discount": 0.0,
+        "id": "P004",
+        "name": "Mueble Bajo para Lavamanos",
+        "category": "baño",
+        "price": 85.9
+      },
+      {
+        "quantity": 1,
+        "discount": 0.0,
+        "id": "P007",
+        "name": "Adhesivo para Cerámica",
+        "category": "pisos y paredes",
+        "price": 15.3
+      }
+    ],
+    "payment": {
+      "cashReceived": 150.0,
+      "amount": 101.2,
+      "type": "Cash"
+    }
+  }
+]

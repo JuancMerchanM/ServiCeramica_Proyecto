@@ -11,9 +11,10 @@
     -fx-background-color: rgb(114,0,0);
     -fx-pref-height:130;
 }
-#logoSesion{
+#bttnSesion{
     -fx-background-image: url("LogoSesion.png");
     -fx-background-color: rgb(114,0,0);
+    -fx-background-radius: 0;
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
     -fx-background-size: 120px 70px;

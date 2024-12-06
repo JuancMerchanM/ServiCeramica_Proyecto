@@ -35,8 +35,7 @@ public class ProductOrder extends Product {
 
     @Override
     public String toString() {
-        return "ProductOrder [quantity=" + quantity + ", discount=" + discount + "]";
+        return String.format("ID: %s, Nombre: %s, Precio: %.2f, Cantidad: %d, Descuento: %.2f", 
+                            getId(), getName(), getFinalValue(), quantity, discount);
     }
-
-    
 }

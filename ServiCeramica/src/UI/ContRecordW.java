@@ -2,10 +2,13 @@ package UI;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Map;
 
 import Logic.DatePickerAdapter;
+import Logic.Reports;
 import Logic.SaleManage;
 import Logic.SaleTable;
+import Model.Sale;
 import Model.SaleRecord;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -23,12 +26,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
+import javafx.stage.Window;
 
 public class ContRecordW {
     @FXML private Button registros;
     @FXML private Button registrarVenta;
+    @FXML private Button bttnSesion;
     @FXML private VBox infoSale;
+    @FXML private VBox boxUserInf;
 
     @FXML private TableView<SaleRecord> tableViewSales;
     @FXML private TableColumn<SaleRecord, String> idSaleCol;
@@ -53,6 +61,11 @@ public class ContRecordW {
     @FXML private Label custName;
     @FXML private Label custContact;
     @FXML private Label amountTotal;
+
+    @FXML private TextField reportTotal;
+    @FXML private TextField reportQuantity;
+    @FXML private TextField reportBestCat;
+    @FXML private Label listProductsString;
     
 
     private SaleTable manageSaleTable;
@@ -174,10 +187,34 @@ public class ContRecordW {
         infoSale.setManaged(true);
         infoSale.setVisible(true);
 
+        Sale sale = SaleManage.getSale(selectSale.getSaleId());
+
         saleId.setText(selectSale.getSaleId());
         saleDate.setText(selectSale.getSaleDate().toString());
         custName.setText(selectSale.getCustName());
         custContact.setText(selectSale.getCustPhone());
-        amountTotal.setText("Calcular");
+        amountTotal.setText(String.valueOf(sale.getPayment().getAmount()));
+        listProductsString.setText(sale.showListProducts());
+    }
+
+    @FXML
+    public void displayInfSesion(){
+        double xBoxUserInf = bttnSesion.getLayoutX();
+        double yBoxUserInf = bttnSesion.getLayoutY() - 65;
+        boxUserInf.setVisible(true);
+        boxUserInf.setManaged(true);
+        Popup popup = new Popup();
+        boxUserInf.setLayoutX(xBoxUserInf);
+        boxUserInf.setLayoutY(yBoxUserInf);
+        popup.getContent().add(boxUserInf);
+        ViewManager.showPopup(popup);
+    }
+
+    @FXML
+    public void generateReport(){
+        Map<String, Object> report = Reports.generateReport(SaleManage.getList());
+        reportTotal.setText(report.get("TotalSold").toString());
+        reportQuantity.setText(report.get("ProductQuantities").toString());
+        reportBestCat.setText(report.get("BestCategory").toString());
     }
 }
