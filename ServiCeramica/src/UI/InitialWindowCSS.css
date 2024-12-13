@@ -200,7 +200,7 @@
     -fx-background-radius: 10 5px 5px 10;
 }
 
-#filDateInit .text-field, #filDateEnd .text-field {
+.date-picker-tf .text-field{
     -fx-background-radius: 0;
     -fx-border-radius: 10 0 0 10;
 }
@@ -242,6 +242,7 @@
 .label-info-value{
     -fx-padding: 0 65 0 8;
 }
+
 .hbox-info{
     -fx-padding: 7;
 }

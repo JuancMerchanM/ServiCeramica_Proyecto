@@ -19,7 +19,7 @@
     
         <HBox>
             <HBox fx:id="logoServiceramica" minHeight="130" HBox.hgrow="ALWAYS"/>
-            <HBox fx:id="logoSesion" minHeight="130"/>
+            <Button fx:id="bttnSesion" minHeight="130" onAction="#displayInfSesion"/>
         </HBox>
 
         <VBox fx:id="content" alignment="CENTER" VBox.vgrow="ALWAYS">
@@ -44,7 +44,7 @@
                         <ColumnConstraints/>
                     </columnConstraints>
 
-                    <Label text="Datos del cliente" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+                    <Label text="Datos del cliente" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2" styleClass="title-main"/>
                     <Label text="Cedula" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
                     <TextField fx:id="custCardIn" promptText="Ejemplo: 1057978632" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
                     <Label text="Nombre" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
@@ -75,18 +75,7 @@
             </HBox>
 
             <HBox style="-fx-padding:14; -fx-spacing:12" VBox.vgrow="ALWAYS" alignment="CENTER">
-                
-                <TableView fx:id="productTb" HBox.hgrow="ALWAYS" maxWidth="Infinity">
-                        <columns>
-                            <TableColumn fx:id="prodId" text="Id producto"/>
-                            <TableColumn fx:id="prodName" text="Nombre"/>
-                            <TableColumn fx:id="prodCategory" text="Categoria"/>
-                            <TableColumn fx:id="prodPrice" text="Precio"/>
-                        </columns>
-                </TableView>
-
-                <VBox styleClass="box-content" maxHeight="400">
-                    
+                <VBox>
                     <HBox spacing="8" alignment="CENTER" style="-fx-padding:8;">
                     
                         <ComboBox fx:id="searchOption" prefWidth="130" value="Id producto">
@@ -101,24 +90,32 @@
                         <TextField fx:id="searchBar" promptText="Id del producto"/>
                         <Button text="Buscar" onAction="#searchProduct"/>
 
+                        <HBox spacing="8" alignment="CENTER" style="-fx-padding:8;">
+                            <Label text="Categorias"/>
+                            <ComboBox fx:id="searchOptionCat" prefWidth="180">
+                                <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                        <String fx:value="Pisos y paredes"/>
+                                        <String fx:value="Baño"/>
+                                        <String fx:value="Cocina"/>
+                                    </FXCollections>
+                                </items>
+                            </ComboBox>
+                        </HBox>
                     </HBox>
-                    
-                    <HBox spacing="8" alignment="CENTER" style="-fx-padding:8;">
+                    <TableView fx:id="productTb" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                        <columns>
+                            <TableColumn fx:id="prodId" text="Id producto"/>
+                            <TableColumn fx:id="prodName" text="Nombre"/>
+                            <TableColumn fx:id="prodCategory" text="Categoria"/>
+                            <TableColumn fx:id="prodPrice" text="Precio"/>
+                        </columns>
+                </TableView>
+                </VBox>
 
-                        <Label text="Categorias"/>
-                        <ComboBox fx:id="searchOptionCat" prefWidth="180">
-                            <items>
-                                <FXCollections fx:factory="observableArrayList">
-                                    <String fx:value="Pisos y paredes"/>
-                                    <String fx:value="Baño"/>
-                                    <String fx:value="Cocina"/>
-                                </FXCollections>
-                            </items>
-                        </ComboBox>
+                <VBox styleClass="box-content" maxHeight="350">
 
-                    </HBox>
-
-                    <GridPane styleClass="grid-distribution" prefWidth="400" alignment="CENTER" VBox.vgrow="ALWAYS">
+                    <GridPane styleClass="grid-distribution" prefWidth="400" alignment="CENTER" VBox.vgrow="ALWAYS" hgap="15" vgap="18">
                         <columnConstraints>
                             <ColumnConstraints percentWidth="40" halignment="CENTER"/>
                             <ColumnConstraints percentWidth="60"/>
@@ -136,7 +133,7 @@
                         <TextField fx:id="inProdDiscount" text="" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
                         <Label text="Cantidad" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
                         <TextField fx:id="inProdQuantity" text="" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-                        <HBox GridPane.columnIndex="0" GridPane.rowIndex="7" GridPane.columnSpan="2" alignment="CENTER">
+                        <HBox GridPane.columnIndex="0" GridPane.rowIndex="7" GridPane.columnSpan="2" alignment="CENTER" spacing="8">
                             <Button fx:id="productMode" text="Agregar" onAction="#productManagement"/>
                             <Button fx:id="editOrderProduct" text="Editar" onAction="#editProduct" visible="false" managed="false"/>
                         </HBox>

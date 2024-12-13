@@ -26,47 +26,74 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Popup;
-import javafx.stage.Window;
 
 public class ContRecordW {
-    @FXML private Button registros;
-    @FXML private Button registrarVenta;
-    @FXML private Button bttnSesion;
-    @FXML private VBox infoSale;
-    @FXML private VBox boxUserInf;
-
-    @FXML private TableView<SaleRecord> tableViewSales;
-    @FXML private TableColumn<SaleRecord, String> idSaleCol;
-    @FXML private TableColumn<SaleRecord, String> custNameCol;
-    @FXML private TableColumn<SaleRecord, String> custCardCol;
-    @FXML private TableColumn<SaleRecord, Double> custPhoneCol;
-    @FXML private TableColumn<SaleRecord, String> saleAmountCol;
-    @FXML private TableColumn<SaleRecord, String> saleDateCol;
-
-    @FXML private TextField seachBar;
-    @FXML private ComboBox<String> searchOption;
-
-    @FXML private DatePicker filDateInit;
-    @FXML private DatePicker filDateEnd;
-    @FXML private TextField filPriceInit;
-    @FXML private TextField filPriceEnd;
-
-    @FXML private Label messageSaleInfo;
-
-    @FXML private Label saleId;
-    @FXML private Label saleDate;
-    @FXML private Label custName;
-    @FXML private Label custContact;
-    @FXML private Label amountTotal;
-
-    @FXML private TextField reportTotal;
-    @FXML private TextField reportQuantity;
-    @FXML private TextField reportBestCat;
-    @FXML private Label listProductsString;
+    @FXML
+    private Button registros;
+    @FXML
+    private Button registrarVenta;
+    @FXML
+    private Button bttnSesion;
+    @FXML
+    private VBox infoSale;
     
+
+    @FXML
+    private TableView<SaleRecord> tableViewSales;
+    @FXML
+    private TableColumn<SaleRecord, String> idSaleCol;
+    @FXML
+    private TableColumn<SaleRecord, String> custNameCol;
+    @FXML
+    private TableColumn<SaleRecord, String> custCardCol;
+    @FXML
+    private TableColumn<SaleRecord, Double> custPhoneCol;
+    @FXML
+    private TableColumn<SaleRecord, String> saleAmountCol;
+    @FXML
+    private TableColumn<SaleRecord, String> saleDateCol;
+
+    @FXML
+    private TextField seachBar;
+    @FXML
+    private ComboBox<String> searchOption;
+
+    @FXML
+    private DatePicker filDateInit;
+    @FXML
+    private DatePicker filDateEnd;
+    @FXML
+    private TextField filPriceInit;
+    @FXML
+    private TextField filPriceEnd;
+
+    @FXML
+    private Label messageSaleInfo;
+
+    @FXML
+    private Label saleId;
+    @FXML
+    private Label saleDate;
+    @FXML
+    private Label custName;
+    @FXML
+    private Label custContact;
+    @FXML
+    private Label amountTotal;
+
+    @FXML
+    private TextField reportTotal;
+    @FXML
+    private TextField reportBestCat;
+    @FXML
+    private TextField reportWorstCat;
+    @FXML
+    private Label listProductsString;
+    @FXML
+    private DatePicker reportDate;
+    @FXML
+    private ComboBox<String> reportingFrequency;
 
     private SaleTable manageSaleTable;
 
@@ -76,7 +103,7 @@ public class ContRecordW {
         HBox.setHgrow(registrarVenta, Priority.ALWAYS);
         registros.setMaxWidth(Double.MAX_VALUE);
         registrarVenta.setMaxWidth(Double.MAX_VALUE);
-        
+
         idSaleCol.setCellValueFactory(new PropertyValueFactory<>("saleId"));
         custNameCol.setCellValueFactory(new PropertyValueFactory<>("custName"));
         custCardCol.setCellValueFactory(new PropertyValueFactory<>("custCard"));
@@ -86,11 +113,9 @@ public class ContRecordW {
 
         tableViewSales.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
 
-        
         manageSaleTable = new SaleTable();
 
         tableViewSales.setItems(FXCollections.observableArrayList(SaleManage.getSalesTb()));
-
 
         DatePickerAdapter.configureDatePicker(filDateEnd);
         DatePickerAdapter.configureDatePicker(filDateInit);
@@ -98,25 +123,24 @@ public class ContRecordW {
         tableViewSales.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<SaleRecord>() {
 
             @Override
-            public void changed(ObservableValue<? extends SaleRecord> observableValue, SaleRecord oldValue, SaleRecord newValue) {
+            public void changed(ObservableValue<? extends SaleRecord> observableValue, SaleRecord oldValue,
+                    SaleRecord newValue) {
                 if (newValue != null) {
                     showSale(newValue);
                 }
             }
-            
+
         });
 
+        reportingFrequency.valueProperty().addListener((_, _, _) -> {
+            confReportDateFrec();
+        });
+        confReportDateFrec();
     }
 
     @FXML
-    public void backLogin() throws IOException{
-        // App.setRoot("../UI/InitialWindow");
-        ViewManager.backLogin();
-    }
-
-    @FXML
-    public void changeSaleRecord() throws IOException{
-        // App.setRoot("../UI/SaleRecordW");
+    public void changeSaleRecord() throws IOException {
+        ViewManager.hideLogOut();
         ViewManager.changeSaleW();
     }
 
@@ -172,7 +196,7 @@ public class ContRecordW {
     }
 
     @FXML
-    public void cleanFilters(){
+    public void cleanFilters() {
         filDateEnd.setValue(null);
         filDateInit.setValue(null);
         filPriceEnd.setText("");
@@ -181,7 +205,7 @@ public class ContRecordW {
         tableViewSales.setItems(manageSaleTable.getSalesRecordList());
     }
 
-    public void showSale(SaleRecord selectSale){
+    public void showSale(SaleRecord selectSale) {
         messageSaleInfo.setManaged(false);
         messageSaleInfo.setVisible(false);
         infoSale.setManaged(true);
@@ -198,23 +222,37 @@ public class ContRecordW {
     }
 
     @FXML
-    public void displayInfSesion(){
-        double xBoxUserInf = bttnSesion.getLayoutX();
-        double yBoxUserInf = bttnSesion.getLayoutY() - 65;
-        boxUserInf.setVisible(true);
-        boxUserInf.setManaged(true);
-        Popup popup = new Popup();
-        boxUserInf.setLayoutX(xBoxUserInf);
-        boxUserInf.setLayoutY(yBoxUserInf);
-        popup.getContent().add(boxUserInf);
-        ViewManager.showPopup(popup);
+    public void displayInfSesion() {
+        if (ViewManager.isShowingLogOut()) {
+            ViewManager.hideLogOut();
+            return;
+        }
+        ViewManager.showLogOut();
+    }
+
+    private void confReportDateFrec() {
+        switch (reportingFrequency.getValue()) {
+            case "Día":
+                reportDate.setPromptText("DD/MM/YY");
+                DatePickerAdapter.configureDatePicker(reportDate);
+                break;
+            case "Mes":
+                reportDate.setPromptText("MM/YY");
+                DatePickerAdapter.configureOnlyMonth(reportDate);
+                break;
+            case "Año":
+                reportDate.setPromptText("YY");
+                DatePickerAdapter.configureDatePicker(reportDate);
+                break;
+        }
     }
 
     @FXML
-    public void generateReport(){
-        Map<String, Object> report = Reports.generateReport(SaleManage.getList());
+    public void generateReport() {
+        Map<String, Object> report = Reports.generateReport(SaleManage.getList(), reportDate.getValue(),
+                reportingFrequency.getValue());
         reportTotal.setText(report.get("TotalSold").toString());
-        reportQuantity.setText(report.get("ProductQuantities").toString());
         reportBestCat.setText(report.get("BestCategory").toString());
+        reportWorstCat.setText(report.get("WorstCategory").toString());
     }
 }

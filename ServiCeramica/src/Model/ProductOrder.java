@@ -12,7 +12,7 @@ public class ProductOrder extends Product {
     }
 
     public ProductOrder(Product product, int quantity, double discount){
-        super(product.getId(), product.getName(), product.getCategory(), product.getPrice()*quantity);
+        super(product.getId(), product.getName(), product.getCategory(), product.getPrice());
         this.discount = discount;
         this.quantity = quantity;
     }

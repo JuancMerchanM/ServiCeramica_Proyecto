@@ -32,6 +32,50 @@ public class DatePickerAdapter {
         });
     }
 
+    public static void configureOnlyMonth(DatePicker datePicker){
+        datePicker.setPromptText("MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-yyyy");
+        datePicker.setConverter(new StringConverter<>() {
+
+            @Override
+            public String toString(LocalDate date) {
+                return (date != null) ? date.format(formatter) : "";
+            }
+
+            @Override
+            public LocalDate fromString(String text) {
+                try {
+                    return text != null && !text.isEmpty() ? LocalDate.parse("01-" + text, FORMATTER) : null;
+                } catch (DateTimeParseException e) {
+                    showAlert("Fecha invalida", "Por favor ingrese una fecha en el formato MM-yyyy");
+                    return null;
+                }
+            }
+        });
+    }
+
+    public static void configureOnlyYear(DatePicker datePicker){
+        datePicker.setPromptText("yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
+        datePicker.setConverter(new StringConverter<>() {
+
+            @Override
+            public String toString(LocalDate date) {
+                return (date != null) ? date.format(formatter) : "";
+            }
+
+            @Override
+            public LocalDate fromString(String text) {
+                try {
+                    return text != null && !text.isEmpty() ? LocalDate.parse("01-01" + text, FORMATTER) : null;
+                } catch (DateTimeParseException e) {
+                    showAlert("Fecha invalida", "Por favor ingrese una fecha en el formato yyyy");
+                    return null;
+                }
+            }
+        });
+    }
+
     private static void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);

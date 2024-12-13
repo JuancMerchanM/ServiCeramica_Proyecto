@@ -9,6 +9,7 @@ import java.util.List;
 import Logic.ProductOrderTable;
 import Logic.ProductTable;
 import Logic.SaleManage;
+import Logic.TextFieldAdapter;
 import Model.CashPayment;
 import Model.Customer;
 import Model.Payment;
@@ -120,6 +121,7 @@ public class ContSaleRecord {
         setupListeners();
         setupVisibilityBindings();
         setupDateTime();
+        setupTextField();
     }
 
     private void configureButtons() {
@@ -128,20 +130,16 @@ public class ContSaleRecord {
     }
 
     private void configureTables() {
-        // Configuración de políticas de redimensionamiento
         productTb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
         selectedProductTb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
 
-        // Configuración de columnas para productTb
         prodId.setCellValueFactory(new PropertyValueFactory<>("id"));
         prodName.setCellValueFactory(new PropertyValueFactory<>("name"));
         prodCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
         prodPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        // Asignar datos a la tabla
         productTb.setItems(ProductTable.getProductListTb());
 
-        // Configuración de columnas para selectedProductTb
         saleProdId.setCellValueFactory(new PropertyValueFactory<>("id"));
         saleProdName.setCellValueFactory(new PropertyValueFactory<>("name"));
         saleProdCat.setCellValueFactory(new PropertyValueFactory<>("category"));
@@ -150,14 +148,12 @@ public class ContSaleRecord {
     }
 
     private void setupListeners() {
-        // Listener para la selección en productTb
         productTb.getSelectionModel().selectedItemProperty().addListener((_, _, newValue) -> {
             if (newValue != null) {
                 showProduct(newValue);
             }
         });
 
-        // Listener para la selección en selectedProductTb
         selectedProductTb.getSelectionModel().selectedItemProperty()
                 .addListener((_, _, newValue) -> {
                     if (newValue != null) {
@@ -165,7 +161,6 @@ public class ContSaleRecord {
                     }
                 });
 
-        // Listener para el filtro de categorías
         searchOptionCat.valueProperty().addListener((_, _, newValue) -> {
             if (newValue != null) {
                 filterCategory(newValue);
@@ -187,20 +182,31 @@ public class ContSaleRecord {
         });
     }
 
-    private void setupDateTime(){
+    private void setupDateTime() {
         saleDateInf.setText(LocalDate.now().toString());
         configureTimeField(saleTimeInf);
     }
 
-    private void configureTimeField(TextField field){
+    private void configureTimeField(TextField field) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         Runnable updateTime = () -> field.setText(LocalTime.now().format(formatter));
         updateTime.run();
         Timeline timeline = new Timeline(
-            new KeyFrame(Duration.seconds(60), _ -> updateTime.run())
-        );
-        timeline.setCycleCount(Timeline.INDEFINITE); // Repetir indefinidamente
+                new KeyFrame(Duration.seconds(60), _ -> updateTime.run()));
+        timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+    }
+
+    private void setupTextField() {
+        TextFieldAdapter.validateTextField(custNameIn, TextFieldAdapter.containsNum_isEmpty());
+        TextFieldAdapter.validateTextField(custCardIn,
+                TextFieldAdapter.containsLet_isEmpty().or(TextFieldAdapter.length10()));
+        TextFieldAdapter.validateTextField(custAddressIn, TextFieldAdapter.isBlank());
+        TextFieldAdapter.validateTextField(custPhoneIn,
+                TextFieldAdapter.containsLet_isEmpty().or(TextFieldAdapter.length10()));
+        TextFieldAdapter.validateTextField(amountReceivedIn, TextFieldAdapter.containsLet_isEmpty());
+        TextFieldAdapter.validateTextField(senderNumberIn,
+        TextFieldAdapter.containsLet_isEmpty().or(TextFieldAdapter.length10()));
     }
 
     private void setVisibleNode(Node node, boolean visible) {
@@ -214,19 +220,22 @@ public class ContSaleRecord {
         if (newSale == null) {
             return;
         }
-        double turned = parseDoubleSafe(amountReceivedIn.getText(),"Monto recibido") - ProductOrderTable.getTotalAmount();
-        if (turned<0) {
+        double turned = parseDoubleSafe(amountReceivedIn.getText(), "Monto recibido")
+                - ProductOrderTable.getTotalAmount();
+        if (turned < 0) {
             Alerts.failedAmountReceived();
             return;
         }
         Alerts.succesRegisterSale(newSale, turned);
         SaleManage.createSale(newSale);
+        ProductOrderTable.reset();
+        updateSelectedProductTable();
         cleanFields();
     }
 
     private Sale createSaleFromInputs() {
         String custCard = custCardIn.getText();
-        if (contieneLet_EsVacio(custCard) || custCard.length()<10) {
+        if (contieneLet_EsVacio(custCard) || custCard.length() < 10) {
             Alerts.errorParsingNumber("Cedula cliente");
             return null;
         }
@@ -236,7 +245,7 @@ public class ContSaleRecord {
             return null;
         }
         String custPhone = custPhoneIn.getText();
-        if (contieneLet_EsVacio(custPhone) || custCard.length()<10) {
+        if (contieneLet_EsVacio(custPhone) || custCard.length() < 10) {
             Alerts.errorParsingNumber("Telefono cliente");
             return null;
         }
@@ -255,20 +264,20 @@ public class ContSaleRecord {
         Payment payment = getPayment();
 
         return new Sale(
-            saleTime, 
-            new Customer(custName, custCard, custPhone, custAddress), 
-            saleDate, 
-            saleTime, 
-            payment, 
-            listProductOrder);
+                saleTime,
+                new Customer(custName, custCard, custPhone, custAddress),
+                saleDate,
+                saleTime,
+                payment,
+                listProductOrder);
     }
 
-    private Payment getPayment(){
+    private Payment getPayment() {
         double totalAmount = ProductOrderTable.getTotalAmount();
         if (opPaymenMethod.getValue().equals("Efectivo")) {
-            double cashReceived =  parseDoubleSafe(amountReceivedIn.getText(), "Monto recibido");
+            double cashReceived = parseDoubleSafe(amountReceivedIn.getText(), "Monto recibido");
             return new CashPayment(totalAmount, cashReceived);
-        }else{
+        } else {
             String senderNumber = senderNumberIn.getText();
             String platform = opTransferMethod.getValue();
             return new TransferPayment(totalAmount, senderNumber, platform);
@@ -279,18 +288,29 @@ public class ContSaleRecord {
     public void cleanFields() {
         cleanFieldsProduct();
         cleanFieldsCust();
-        selectedProductTb.setItems(null);
-        saleValue.setText("");
+        cleanFieldsPayment();
+        ProductOrderTable.reset();
+        updateSelectedProductTable();
     }
 
     @FXML
     public void changeRecord() throws IOException {
+        ViewManager.hideLogOut();
         ViewManager.changeRecord();
     }
 
     @FXML
+    public void displayInfSesion() {
+        if (ViewManager.isShowingLogOut()) {
+            ViewManager.hideLogOut();
+            return;
+        }
+        ViewManager.showLogOut();
+    }
+
+    @FXML
     public void searchProduct() {
-        if (searchBar.getText().isEmpty()){
+        if (searchBar.getText().isEmpty()) {
             ProductTable.reloadProductListTb();
             return; // Salir si no hay texto en el buscador
         }
@@ -318,7 +338,7 @@ public class ContSaleRecord {
     }
 
     @FXML
-    public void editProduct(){
+    public void editProduct() {
         ProductOrder productEditing = selectedProductTb.getSelectionModel().getSelectedItem();
         int newQuantity = parseIntSafe(inProdQuantity.getText());
         double newDiscount = parseDoubleSafe(inProdDiscount.getText(), "Descuento");
@@ -330,9 +350,9 @@ public class ContSaleRecord {
     private void addSelectedProductToOrder() {
         Product selectedProduct = productTb.getSelectionModel().getSelectedItem();
         if (selectedProduct == null)
-            return; // Salir si no hay un producto seleccionado
+            return;
 
-        Double discount = parseDoubleSafe(inProdDiscount.getText(),"Descuento");
+        Double discount = parseDoubleSafe(inProdDiscount.getText(), "Descuento");
         int quantity = parseIntSafe(inProdQuantity.getText());
         ProductOrderTable.addProduct(new ProductOrder(selectedProduct, quantity, discount));
         updateSaleValue();
@@ -342,7 +362,7 @@ public class ContSaleRecord {
     private void removeSelectedProductFromOrder() {
         ProductOrder selectedProductOrder = selectedProductTb.getSelectionModel().getSelectedItem();
         if (selectedProductOrder == null)
-            return; // Salir si no hay un pedido seleccionado
+            return;
 
         ProductOrderTable.removeProduct(selectedProductOrder.getId());
         updateSelectedProductTable();
@@ -355,7 +375,7 @@ public class ContSaleRecord {
         selectedProductTb.setItems(ProductOrderTable.getListTable());
     }
 
-    private void updateSaleValue(){
+    private void updateSaleValue() {
         saleValue.setText(String.format("%.2f", ProductOrderTable.getTotalAmount()));
     }
 
@@ -364,7 +384,7 @@ public class ContSaleRecord {
             return Double.parseDouble(text);
         } catch (NumberFormatException e) {
             Alerts.errorParsingNumber(text);
-            return 0.0; // Valor predeterminado si hay un error
+            return 0.0;
         }
     }
 
@@ -372,7 +392,7 @@ public class ContSaleRecord {
         try {
             return Integer.parseInt(text);
         } catch (NumberFormatException e) {
-            return 1; // Valor predeterminado si hay un error
+            return 1;
         }
     }
 
@@ -383,7 +403,7 @@ public class ContSaleRecord {
 
     public void showProduct(Product product) {
         if (product == null)
-            return; // Salir si no hay un producto
+            return;
 
         infProdId.setText(product.getId());
         infProdName.setText(product.getName());
@@ -400,23 +420,24 @@ public class ContSaleRecord {
     }
 
     public void showProductOrder(ProductOrder productOrder) {
-        if (productOrder == null) return; // Verifica que no sea nulo para evitar errores
-    
+        if (productOrder == null)
+            return;
+
         setTextField(infProdId, productOrder.getId());
         setTextField(infProdName, productOrder.getName());
         setTextField(infProdCat, productOrder.getCategory());
         setTextField(infProdPrice, productOrder.getPrice().toString());
         setTextField(inProdDiscount, String.valueOf(productOrder.getDiscount()));
-        setTextField(inProdQuantity, String.valueOf(productOrder.getQuantity())); // Corrección: se usa quantity, no price
+        setTextField(inProdQuantity, String.valueOf(productOrder.getQuantity()));
         productMode.setText("Remover");
         setVisibleNode(editOrderProduct, true);
     }
-    
+
     private void setTextField(TextField field, String value) {
         if (value != null) {
             field.setText(value);
         } else {
-            field.clear(); // Limpia si el valor es nulo
+            field.clear();
         }
     }
 
@@ -427,7 +448,11 @@ public class ContSaleRecord {
     public void cleanFieldsCust() {
         clearTextFields(custNameIn, custCardIn, custAddressIn, custPhoneIn);
     }
-    
+
+    public void cleanFieldsPayment(){
+        clearTextFields(senderNumberIn, saleValue, amountReceivedIn);
+    }
+
     private void clearTextFields(TextField... fields) {
         for (TextField field : fields) {
             if (field != null) {
@@ -436,33 +461,28 @@ public class ContSaleRecord {
         }
     }
 
-    @FXML
-    public void backLogin() throws IOException {
-        ViewManager.backLogin();
+    private boolean contieneNum_EsVacio(String sstring) {
+        if (sstring.trim().isEmpty()) {
+            return true;
+        }
+        for (char l : sstring.toCharArray()) {
+            if (Character.isDigit(l)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    private boolean contieneNum_EsVacio(String sstring) {
-		if (sstring.trim().isEmpty()) {
-			return true;
-		}
-		for (char l : sstring.toCharArray()) {
-			if (Character.isDigit(l)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
     private boolean contieneLet_EsVacio(String sstring) {
-		sstring = sstring.replaceAll("\\s", "");
-		if (sstring.trim().isEmpty()) {
-			return true;
-		}
-		for (char l : sstring.toCharArray()) {
-			if (Character.isAlphabetic(l)) {
-				return true;
-			}
-		}
-		return false;
-	}
+        sstring = sstring.replaceAll("\\s", "");
+        if (sstring.trim().isEmpty()) {
+            return true;
+        }
+        for (char l : sstring.toCharArray()) {
+            if (Character.isAlphabetic(l)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

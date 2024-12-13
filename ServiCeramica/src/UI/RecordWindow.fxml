@@ -14,8 +14,9 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
 <?import java.lang.String?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.StackPane?>
 
 
 
@@ -25,10 +26,6 @@
         <HBox fx:id="logoServiceramica" minHeight="130" HBox.hgrow="ALWAYS"/>
         <Button fx:id="bttnSesion" minHeight="130" onAction="#displayInfSesion"/>
     </HBox>
-    <VBox fx:id="boxUserInf" visible="false" managed="false">
-        <Label fx:id="user"/>
-        <Button text="Cerrar sesion" onAction="#backLogin"/>
-    </VBox>
 
     <VBox fx:id="content" alignment="CENTER" VBox.vgrow="ALWAYS">
 
@@ -88,9 +85,9 @@
                         <children>
                             <Label text="Filtrar por fecha" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
                             <Label text="Desde:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                            <DatePicker fx:id="filDateInit" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                            <DatePicker fx:id="filDateInit" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="date-picker-tf"/>
                             <Label text="Hasta:" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-                            <DatePicker fx:id="filDateEnd" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                            <DatePicker fx:id="filDateEnd" GridPane.columnIndex="3" GridPane.rowIndex="1" styleClass="date-picker-tf"/>
                             <Label text="Filtrar por valor de la compra" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="2"/>
                             <Label text="Desde:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
                             <TextField fx:id="filPriceInit" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
@@ -101,7 +98,7 @@
                         </children>
                 </GridPane>
 
-                <VBox fx:id="selectRecordInfo" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2" alignment="CENTER" styleClass="box-content">
+                <VBox fx:id="selectRecordInfo" GridPane.columnIndex="1" GridPane.rowIndex="1"  alignment="CENTER" styleClass="box-content">
                     <Label fx:id="messageSaleInfo" text="Seleccione un registro en la tabla para ver la informacion."/>
                     <VBox fx:id="infoSale" visible="false" managed="false" VBox.vgrow="ALWAYS" style="-fx-padding: 10;">
                         <HBox styleClass="hbox-info">
@@ -116,16 +113,22 @@
                             <Label text="Contacto:"/>
                             <Label fx:id="custContact" styleClass="label-info-value"/>
                         </HBox>
-                        <HBox styleClass="hbox-info" VBox.vgrow="ALWAYS">
-                            <Label fx:id="listProductsString" text="Productos"/>
-                        </HBox>
+
+                        <ScrollPane styleClass="hbox-info" VBox.vgrow="ALWAYS">
+                            <content>
+                                <VBox>
+                                    <Label fx:id="listProductsString" text="Productos"/>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+
                         <HBox styleClass="hbox-info">
                             <Label text="Monto total:"/>
                             <Label fx:id="amountTotal" styleClass="label-info-value"/>
                         </HBox>
                     </VBox>
                 </VBox>
-                <VBox fx:id="reports" VBox.vgrow="ALWAYS" styleClass="box-content" GridPane.columnIndex="0" GridPane.rowIndex="2" alignment="CENTER" spacing="25">
+                <VBox fx:id="reports" VBox.vgrow="ALWAYS" styleClass="box-content" GridPane.columnIndex="0" GridPane.rowIndex="2" alignment="CENTER" spacing="25" GridPane.columnSpan="2">
                     
                     <HBox style="-fx-padding: 0 0 0 35;" alignment="CENTER" spacing="10">
                         <Label text="Frecuencia:"/>
@@ -138,10 +141,11 @@
                                 </FXCollections>
                             </items>
                         </ComboBox>
+                        <DatePicker fx:id="reportDate" styleClass="date-picker-tf"/>
                         <Button text="Generar" onAction="#generateReport"/>
                     </HBox>
 
-                    <HBox>
+                    <HBox alignment="CENTER">
                         <HBox spacing="10" alignment="CENTER" style="-fx-padding: 0 0 0 35;">
                         
                             <Label text="Total vendido"/>
@@ -150,8 +154,8 @@
                         </HBox>
                         <HBox spacing="10" alignment="CENTER" style="-fx-padding: 0 0 0 35;">
                         
-                            <Label text="Cantidades"/>
-                            <TextField fx:id="reportQuantity" editable="false"/>
+                            <Label text="Categoria menos vendida"/>
+                            <TextField fx:id="reportWorstCat" editable="false"/>
 
                         </HBox>
                         <HBox spacing="10" alignment="CENTER" style="-fx-padding: 0 0 0 35;">

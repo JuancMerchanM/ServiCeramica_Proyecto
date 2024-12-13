@@ -13,7 +13,8 @@ public class ProductOrderTable {
     private static double TotalAmount = 0;
 
     public static void removeProduct(String idProduct){
-        productList.remove(idProduct);
+        ProductOrder rmProduct = productList.remove(idProduct);
+        TotalAmount -= rmProduct.getFinalValue(); 
     }
 
     public static void addProduct(ProductOrder productOrder){
@@ -42,6 +43,11 @@ public class ProductOrderTable {
 
     public static double getTotalAmount(){
         return ProductOrderTable.TotalAmount;
+    }
+
+    public static void reset(){
+        TotalAmount = 0;
+        productList = new HashMap<>();
     }
 
 }
